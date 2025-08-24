@@ -1,7 +1,7 @@
 import { HotTable } from '@handsontable/react-wrapper';
 import { Alert, Box, Grid, Paper, Stack, useTheme } from '@mui/material';
 import { createFileRoute } from '@tanstack/react-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   CartesianGrid,
   Label,
@@ -43,7 +43,6 @@ function App() {
       )
       .toSorted((a, b) => a.cost - b.cost);
   }, [data]);
-  const theme = useTheme();
 
   const afterChange = useCallback(
     (
@@ -69,24 +68,25 @@ function App() {
     },
     [],
   );
-  useEffect(() => {
-    console.debug(JSON.stringify(data));
-  }, [data]);
 
   return (
     <Box
       padding={2}
       sx={{
-        backgroundColor: theme.palette.primary.light,
-        height: { sm: '100%', md: '100vh' },
         boxSizing: 'border-box',
+        height: '100%',
       }}
     >
-      <Grid container spacing={2} sx={{ height: '100%' }}>
-        <Grid size={{ sm: 12, md: 4 }} height="100%" sx={{ overflowY: 'auto' }}>
-          <Stack spacing={2} height={'100%'}>
-            <Paper sx={{ overflowY: 'auto', flexBasis: 0, flexGrow: 1 }}>
-              <Stack spacing={2} sx={{ height: '100%', overflowY: 'auto' }}>
+      <Grid container spacing={2} height={'100%'}>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Stack spacing={2}>
+            <Paper
+              sx={{
+                flexBasis: 0,
+                flexGrow: 1,
+              }}
+            >
+              <Stack spacing={2}>
                 <Alert severity="info">
                   ป้อนข้อมูลตัวเลขลงในตารางด้านล่าง
                   จะแสดงผลตามข้อมูลที่ใส่โดยอัตโนมัต
@@ -118,7 +118,7 @@ function App() {
                   width="100%"
                   rowHeaders
                   minSpareRows={1}
-                  height="auto"
+                  height={`max(200px, 30vh)`}
                   licenseKey="non-commercial-and-evaluation"
                   columnSorting={false}
                   multiColumnSorting={false}
@@ -132,9 +132,9 @@ function App() {
             <Alert severity="success">พื้นที่สำหรับเพิ่มชื่อคุณครู</Alert>
           </Stack>
         </Grid>
-        <Grid size={{ md: 'grow' }}>
-          <Paper sx={{ height: '100%', padding: 2 }}>
-            <ResponsiveContainer>
+        <Grid size={{ xs: 12, md: 'grow' }}>
+          <Paper sx={{ height: { xs: '75vh', md: '100%' }, padding: 2 }}>
+            <ResponsiveContainer width="100%" height="100%">
               <LineChart data={sortedDataset}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <Legend verticalAlign="top" align="right" />

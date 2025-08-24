@@ -1,12 +1,12 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from '@tanstack/react-router';
 import {
   CssBaseline,
   GlobalStyles,
   ThemeProvider,
   alpha,
   createTheme,
-} from '@mui/material'
-import { orange } from '@mui/material/colors'
+} from '@mui/material';
+import { orange } from '@mui/material/colors';
 
 const theme = createTheme({
   cssVariables: true,
@@ -28,13 +28,16 @@ const theme = createTheme({
       defaultProps: { variant: 'outlined' },
     },
   },
-})
+});
 
 const global = (
   <GlobalStyles
     styles={(t) => ({
       '*': {
         scrollbarWidth: 'thin',
+      },
+      body: {
+        backgroundColor: t.palette.primary.light,
       },
       /* base zebra (cells + row headers) */
       '.handsontable .htCore td.row-odd, .handsontable .htCore th.row-odd': {
@@ -66,7 +69,7 @@ const global = (
       },
     })}
   />
-)
+);
 
 export const Route = createRootRoute({
   component: () => (
@@ -76,4 +79,4 @@ export const Route = createRootRoute({
       <Outlet />
     </ThemeProvider>
   ),
-})
+});
