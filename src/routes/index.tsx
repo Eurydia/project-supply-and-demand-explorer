@@ -1,5 +1,5 @@
 import { HotTable } from '@handsontable/react-wrapper';
-import { Alert, Box, Grid, Paper, Stack, useTheme } from '@mui/material';
+import { Alert, Box, Grid, Paper, Stack } from '@mui/material';
 import { createFileRoute } from '@tanstack/react-router';
 import { useCallback, useMemo, useState } from 'react';
 import {
