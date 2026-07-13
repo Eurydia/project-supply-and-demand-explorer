@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link
+      rel="canonical"
+      href="https://eurydia.github.io/project-supply-and-demand-explorer/"
+    />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -22,24 +27,40 @@
     />
     <meta
       name="description"
-      content="เครื่องมือเปรียบเทียบความสัมพันธ์ของราคา อุปสงค์ และอุปทานจากข้อมูลตาราง"
+      content="สร้างกราฟอุปสงค์และอุปทานจากข้อมูลตาราง พร้อมคำนวณราคากับปริมาณดุลยภาพและตรวจสอบความถูกต้องของข้อมูล"
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="th_TH" />
-    <meta property="og:title" content="ตัวสำรวจอุปสงค์–อุปทาน" />
+    <meta property="og:site_name" content="ตัวสำรวจอุปสงค์–อุปทาน" />
+    <meta
+      property="og:url"
+      content="https://eurydia.github.io/project-supply-and-demand-explorer/"
+    />
+    <meta property="og:title" content="กราฟอุปสงค์–อุปทานและจุดสมดุล" />
     <meta
       property="og:description"
-      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และตรวจสอบจุดสมดุล"
+      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และคำนวณราคากับปริมาณดุลยภาพ"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta
+      property="og:image:alt"
+      content="กราฟอุปสงค์และอุปทานบนกระดาษกริดโทนสีธรรมชาติ"
     />
     <meta
       property="og:image"
       content="https://eurydia.github.io/project-supply-and-demand-explorer/og.png"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ตัวสำรวจอุปสงค์–อุปทาน" />
+    <meta name="twitter:title" content="กราฟอุปสงค์–อุปทานและจุดสมดุล" />
     <meta
       name="twitter:description"
-      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และตรวจสอบจุดสมดุล"
+      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และคำนวณราคากับปริมาณดุลยภาพ"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="กราฟอุปสงค์และอุปทานบนกระดาษกริดโทนสีธรรมชาติ"
     />
     <meta
       name="twitter:image"
@@ -51,13 +72,57 @@
       href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap"
       rel="stylesheet"
     />
-    <meta name="theme-color" content="#fffdf5" />
+    <meta name="theme-color" content="#f6f0e4" />
     <link rel="manifest" href="./manifest.json" />
-    <title>ตัวสำรวจอุปสงค์–อุปทาน</title>
-    <script type="module" crossorigin src="./assets/index-DudpvcuH.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-B4VS40o4.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ตัวสำรวจอุปสงค์–อุปทาน",
+        "alternateName": "Supply and Demand Explorer",
+        "url": "https://eurydia.github.io/project-supply-and-demand-explorer/",
+        "description": "เครื่องมือสร้างกราฟอุปสงค์และอุปทานจากข้อมูลตาราง พร้อมคำนวณราคากับปริมาณดุลยภาพ",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "th",
+        "isAccessibleForFree": true
+      }
+    </script>
+    <title>กราฟอุปสงค์–อุปทานและจุดสมดุล | ตัวสำรวจข้อมูล</title>
+    <style>
+      .seo-fallback {
+        max-width: 960px;
+        margin: 40px auto;
+        padding: 32px;
+        color: #2f352e;
+        background: #f6f0e4;
+        font-family: system-ui, sans-serif;
+      }
+      .seo-fallback h1,
+      .seo-fallback h2 {
+        color: #303a31;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-TGNGaQc2.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BTBG27Bb.css">
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <main class="seo-fallback">
+        <h1>ตัวสำรวจกราฟอุปสงค์–อุปทานและจุดสมดุล</h1>
+        <p>
+          เครื่องมือสำหรับป้อนข้อมูลราคา ปริมาณอุปทาน และปริมาณอุปสงค์
+          เพื่อสร้างกราฟเปรียบเทียบและคำนวณราคากับปริมาณดุลยภาพ
+        </p>
+        <section>
+          <h2>วิเคราะห์ข้อมูลอุปสงค์และอุปทาน</h2>
+          <p>
+            ตารางรองรับการตรวจสอบข้อมูล ค่าที่ไม่ครบ ราคาซ้ำ และทิศทางของเส้น
+            พร้อมคำนวณจุดตัดด้วยการแทรกค่าระหว่างจุดข้อมูล
+          </p>
+        </section>
+      </main>
+    </div>
   </body>
 </html>
