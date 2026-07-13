@@ -1,6 +1,6 @@
 {
-  "short_name": "Supply-demand explorer",
-  "name": "A small educational tool for visualizing supply and demand",
+  "short_name": "อุปสงค์–อุปทาน",
+  "name": "ตัวสำรวจอุปสงค์และอุปทาน",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#fffdf5",
+  "background_color": "#e9e3d4"
 }
