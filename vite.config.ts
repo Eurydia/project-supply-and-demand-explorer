@@ -1,10 +1,8 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import viteReact from '@vitejs/plugin-react';
-
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [tanstackRouter({ autoCodeSplitting: true }), viteReact()],
   resolve: {
@@ -12,5 +10,5 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
-  base: '/project-supply-and-demand-explorer/',
+  base: './',
 });

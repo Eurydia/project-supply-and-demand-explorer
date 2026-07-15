@@ -1,0 +1,33 @@
+packages:
+  - '.'
+allowBuilds:
+  core-js: true
+  esbuild: true
+  unrs-resolver: true
+catalog:
+  '@emotion/react': ^11.14.0
+  '@emotion/styled': ^11.14.1
+  '@faker-js/faker': ^9.9.0
+  gh-pages: ^6.3.0
+  handsontable: ^16.0.1
+  '@handsontable/react-wrapper': ^16.0.1
+  jsdom: ^26.0.0
+  '@mui/icons-material': ^7.3.1
+  '@mui/material': ^7.3.1
+  prettier: ^3.5.3
+  react: ^19.0.0
+  react-dom: ^19.0.3
+  recharts: ^3.1.2
+  '@tanstack/eslint-config': ^0.3.0
+  '@tanstack/react-devtools': ^0.2.2
+  '@tanstack/react-router': ^1.130.2
+  '@tanstack/react-router-devtools': ^1.131.5
+  '@tanstack/router-plugin': ^1.121.2
+  '@testing-library/dom': ^10.4.0
+  '@testing-library/react': ^16.2.0
+  typescript: ^5.7.2
+  '@types/node': ^24.3.0
+  '@types/react': ^19.0.8
+  '@types/react-dom': ^19.0.3
+  vite: ^6.3.5
+  '@vitejs/plugin-react': ^4.3.4
