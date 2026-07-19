@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { useSupplyDemandExplorer } from '@/hooks/use-supply-demand-controller';
-import { DataEntryCard } from '@/components/DataEntryCard';
+import { DataEntryCard } from '@/components/data-entry-card';
 import { AnalysisCard } from '@/components/AnalysisCard';
 import { ExplorerHeader } from '@/components/app-header';
 import { useDatasetHistory } from '@/hooks/use-dataset-history';

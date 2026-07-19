@@ -22,8 +22,7 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
   return (
     <Box
       sx={(theme) => ({
-        minWidth: 150,
-        p: '9px 11px',
+        padding: '9px 11px',
         color: theme.palette.text.primary,
         bgcolor: 'rgba(246, 240, 228, 0.96)',
         border: `2px solid ${theme.palette.text.primary}`,

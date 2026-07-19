@@ -1,3 +1,5 @@
+import z, { formatError } from 'zod';
+
 export const DATASET_STORAGE_KEY = 'supply-demand-explorer.dataset.v1';
 export const DATASET_FIELDS = ['cost', 'supply', 'demand'] as const;
 export type DatasetField = (typeof DATASET_FIELDS)[number];
@@ -80,16 +82,28 @@ export const validateDataset = (
   }>();
   const messages: Array<string> = [];
   let incompleteRows = 0;
+  let invalidRows = 0;
+  console.debug(data);
 
   data.forEach((row, rowIndex) => {
     if (row.cost === null && row.demand === null && row.supply === null) {
       return;
     }
 
-    const missingFields = DATASET_FIELDS.filter((field) => row[field] === null);
-    if (missingFields.length > 0) {
+    const missingCells = DATASET_FIELDS.filter((field) => row[field] === null);
+    if (missingCells.length > 0) {
       incompleteRows += 1;
-      missingFields.forEach((field) =>
+      missingCells.forEach((field) =>
+        invalidCells.add({ row: rowIndex, column: field }),
+      );
+    }
+
+    const nanCells = DATASET_FIELDS.filter(
+      (field) => row[field] !== null && Number.isNaN(Number(row[field])),
+    );
+    if (nanCells.length > 0) {
+      invalidRows += 1;
+      nanCells.forEach((field) =>
         invalidCells.add({ row: rowIndex, column: field }),
       );
     }
@@ -97,6 +111,11 @@ export const validateDataset = (
 
   if (incompleteRows > 0) {
     messages.push(`ข้อมูลไม่ครบ ${incompleteRows.toLocaleString('th-TH')} แถว`);
+  }
+  if (invalidRows > 0) {
+    messages.push(
+      `ข้อมูลถูกต้อง ${incompleteRows.toLocaleString('th-TH')} แถว`,
+    );
   }
 
   const completeDataset = getCompleteDataset(data);

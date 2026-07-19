@@ -2,6 +2,7 @@ import { HotTable } from '@handsontable/react-wrapper';
 import { registerAllModules } from 'handsontable/registry';
 import { getTheme, mainTheme, registerTheme } from 'handsontable/themes';
 import { useMemo } from 'react';
+import type { FC } from 'react';
 import type { CellChange, ChangeSource } from 'handsontable';
 import type { Type$DatasetRow } from '@/types/core';
 
@@ -27,8 +28,8 @@ const tableTheme =
         cellVerticalBorderColor: '#b5ac99',
         rowCellOddBackgroundColor: '#f7f1e5',
         rowCellEvenBackgroundColor: '#d9ddc9',
-        rowHeaderOddBackgroundColor: '#4f593d',
-        rowHeaderEvenBackgroundColor: '#4f593d',
+        rowHeaderOddBackgroundColor: '#f7f1e5',
+        rowHeaderEvenBackgroundColor: '#d9ddc9',
         headerFontWeight: '700',
         headerForegroundColor: '#fffaf0',
         headerBackgroundColor: '#4f593d',
@@ -46,32 +47,23 @@ const tableTheme =
       },
     });
 
-type Field = 'cost' | 'supply' | 'demand';
-
 type Props = {
   data: Array<Type$DatasetRow>;
-  invalidCells: Set<{ row: number; column: Field }>;
+  invalidCells: Set<{ row: number; column: 'cost' | 'supply' | 'demand' }>;
   onChange: (data: Array<Type$DatasetRow>) => void;
 };
 
-const emptyRow = (): Type$DatasetRow => ({
-  cost: null,
-  supply: null,
-  demand: null,
-});
-
-const parseCell = (value: unknown) => {
-  if (value === '' || value === null || value === undefined) return null;
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-};
-
-export function DatasetTable({ data, invalidCells, onChange }: Props) {
-  const tableData = useMemo(() => data.map((row) => ({ ...row })), [data]);
+export const DatasetTable: FC<Props> = (props) => {
+  const tableData = useMemo(
+    () => props.data.map((row) => ({ ...row })),
+    [props.data],
+  );
   const invalidKeys = useMemo(
     () =>
-      new Set([...invalidCells].map((cell) => `${cell.row}:${cell.column}`)),
-    [invalidCells],
+      new Set(
+        [...props.invalidCells].map((cell) => `${cell.row}:${cell.column}`),
+      ),
+    [props.invalidCells],
   );
 
   return (
@@ -112,13 +104,20 @@ export function DatasetTable({ data, invalidCells, onChange }: Props) {
         changes: Array<CellChange> | null,
         source: ChangeSource,
       ) => {
-        if (!changes || source === 'loadData') return;
+        if (!changes || source === 'loadData') {
+          return;
+        }
 
-        const next = data.map((row) => ({ ...row }));
+        const next = props.data.map((row) => ({ ...row }));
         changes.forEach(([rowIndex, property, , value]) => {
-          while (next.length <= rowIndex) next.push(emptyRow());
-          const field = String(property) as Field;
-          next[rowIndex] = { ...next[rowIndex], [field]: parseCell(value) };
+          while (next.length <= rowIndex) {
+            next.push({ cost: null, demand: null, supply: null });
+          }
+          const field = String(property) as 'cost' | 'supply' | 'demand';
+          next[rowIndex] = {
+            ...next[rowIndex],
+            [field]: value,
+          };
         });
 
         while (
@@ -127,11 +126,11 @@ export function DatasetTable({ data, invalidCells, onChange }: Props) {
         ) {
           next.pop();
         }
-        onChange(next);
+        props.onChange(next);
       }}
       theme={tableTheme}
       injectCoreCss
       licenseKey="non-commercial-and-evaluation"
     />
   );
-}
+};

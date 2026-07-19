@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { DatasetTable } from './DatasetTable';
+import { DatasetTable } from './data-entry-table';
 import { NotebookCard } from './notebook-card';
 import { SectionHeading } from './section-heading';
 import type { FC } from 'react';
@@ -114,7 +114,6 @@ export const DataEntryCard: FC<{
             <Stack spacing={0.5}>
               {props.errors.messages.map((message) => (
                 <Typography
-                  component="p"
                   key={message}
                   color="secondary"
                   sx={{ fontWeight: 700 }}
