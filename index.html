@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link
+      rel="canonical"
+      href="https://eurydia.github.io/project-supply-and-demand-explorer/"
+    />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -22,41 +27,74 @@
     />
     <meta
       name="description"
-      content="สมุดทดลองอุปสงค์และอุปทาน—กรอกข้อมูลตารางแล้วสำรวจความสัมพันธ์ผ่านกราฟทันที"
+      content="สร้างกราฟอุปสงค์และอุปทานจากข้อมูลตาราง พร้อมคำนวณราคากับปริมาณดุลยภาพและตรวจสอบความถูกต้องของข้อมูล"
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="th_TH" />
-    <meta property="og:title" content="สมุดทดลอง อุปสงค์–อุปทาน" />
+    <meta property="og:site_name" content="ตัวสำรวจอุปสงค์–อุปทาน" />
+    <meta
+      property="og:url"
+      content="https://eurydia.github.io/project-supply-and-demand-explorer/"
+    />
+    <meta property="og:title" content="กราฟอุปสงค์–อุปทานและจุดสมดุล" />
     <meta
       property="og:description"
-      content="ใส่ข้อมูล อ่านกราฟ และสำรวจจุดสมดุลในสมุดเศรษฐศาสตร์แบบโต้ตอบ"
+      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และคำนวณราคากับปริมาณดุลยภาพ"
     />
     <meta
-      property="og:image"
-      content="https://eurydia.github.io/project-supply-and-demand-explorer/og.png"
+      property="og:image:alt"
+      content="กราฟอุปสงค์และอุปทานบนกระดาษกริดโทนสีธรรมชาติ"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="สมุดทดลอง อุปสงค์–อุปทาน" />
+    <meta name="twitter:title" content="กราฟอุปสงค์–อุปทานและจุดสมดุล" />
     <meta
       name="twitter:description"
-      content="ใส่ข้อมูล อ่านกราฟ และสำรวจจุดสมดุลในสมุดเศรษฐศาสตร์แบบโต้ตอบ"
+      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และคำนวณราคากับปริมาณดุลยภาพ"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="กราฟอุปสงค์และอุปทานบนกระดาษกริดโทนสีธรรมชาติ"
     />
     <meta
       name="twitter:image"
       content="https://eurydia.github.io/project-supply-and-demand-explorer/og.png"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <meta name="theme-color" content="#fffdf5" />
+    <meta name="theme-color" content="#f6f0e4" />
     <link rel="manifest" href="./manifest.json" />
-    <title>สมุดทดลองอุปสงค์–อุปทาน</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ตัวสำรวจอุปสงค์–อุปทาน",
+        "alternateName": "Supply and Demand Explorer",
+        "url": "https://eurydia.github.io/project-supply-and-demand-explorer/",
+        "description": "เครื่องมือสร้างกราฟอุปสงค์และอุปทานจากข้อมูลตาราง พร้อมคำนวณราคากับปริมาณดุลยภาพ",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "inLanguage": "th",
+        "isAccessibleForFree": true
+      }
+    </script>
+    <title>กราฟอุปสงค์–อุปทานและจุดสมดุล | ตัวสำรวจข้อมูล</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <main>
+        <h1>ตัวสำรวจกราฟอุปสงค์–อุปทานและจุดสมดุล</h1>
+        <p>
+          เครื่องมือสำหรับป้อนข้อมูลราคา ปริมาณอุปทาน และปริมาณอุปสงค์
+          เพื่อสร้างกราฟเปรียบเทียบและคำนวณราคากับปริมาณดุลยภาพ
+        </p>
+        <section>
+          <h2>วิเคราะห์ข้อมูลอุปสงค์และอุปทาน</h2>
+          <p>
+            ตารางรองรับการตรวจสอบข้อมูล ค่าที่ไม่ครบ ราคาซ้ำ และทิศทางของเส้น
+            พร้อมคำนวณจุดตัดด้วยการแทรกค่าระหว่างจุดข้อมูล
+          </p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

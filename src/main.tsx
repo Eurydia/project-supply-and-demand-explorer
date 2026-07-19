@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 
 import { routeTree } from './routeTree.gen';
-import './app/handsontable.init';
-import './styles.css';
 
 const githubPagesBase = '/project-supply-and-demand-explorer/';
 const basepath = window.location.pathname.startsWith(githubPagesBase)
@@ -28,7 +26,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootElement = document.getElementById('app');
-if (rootElement && !rootElement.innerHTML) {
+if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>

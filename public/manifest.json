@@ -1,6 +1,6 @@
 {
-  "short_name": "สมุดอุปสงค์–อุปทาน",
-  "name": "สมุดทดลองอุปสงค์และอุปทาน",
+  "short_name": "อุปสงค์–อุปทาน",
+  "name": "ตัวสำรวจอุปสงค์และอุปทาน",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#fffdf5",
-  "background_color": "#e9e3d4"
+  "theme_color": "#f6f0e4",
+  "background_color": "#c7bdad"
 }
