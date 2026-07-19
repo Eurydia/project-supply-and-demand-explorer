@@ -13,7 +13,6 @@ import {
 import { useMemo } from 'react';
 import type { FC } from 'react';
 import type { TooltipContentProps } from 'recharts';
-import type { Equilibrium, Type$DatasetRowWithIndex } from '@/types/core';
 import { formatTick } from '@/utils/format';
 
 function ChartTooltip({ active, label, payload }: TooltipContentProps) {
@@ -71,8 +70,17 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
 }
 
 export const SupplyDemandChart: FC<{
-  data: Array<Type$DatasetRowWithIndex>;
-  equilibrium: Equilibrium | null;
+  data: Array<{
+    rowIndex: number;
+    supply: number;
+    demand: number;
+    cost: number;
+  }>;
+  equilibrium: {
+    quantity: number;
+    price: number;
+    exact: boolean;
+  } | null;
 }> = (props) => {
   const prices = useMemo(() => {
     const dt = props.data.map((row) => row.cost);
@@ -121,7 +129,6 @@ export const SupplyDemandChart: FC<{
     >
       <Stack
         direction="row"
-        aria-hidden="true"
         sx={{
           alignItems: 'center',
           pointerEvents: 'none',

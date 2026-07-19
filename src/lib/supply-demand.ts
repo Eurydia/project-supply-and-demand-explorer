@@ -1,5 +1,3 @@
-import z, { formatError } from 'zod';
-
 export const DATASET_STORAGE_KEY = 'supply-demand-explorer.dataset.v1';
 export const DATASET_FIELDS = ['cost', 'supply', 'demand'] as const;
 export type DatasetField = (typeof DATASET_FIELDS)[number];

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import type { Type$DatasetRow } from '@/types/core';
 import { DATASET_STORAGE_KEY } from '@/lib/supply-demand';
 import { Schema$DatasetRow } from '@/types/core';
-import type { Type$DatasetRow } from '@/types/core';
 
 const HISTORY_LIMIT = 50;
 
@@ -55,7 +55,10 @@ export const useDatasetHistory = () => {
   const redo = useCallback(() => {
     setHistory((state) => {
       const [next, ...future] = state.future;
-      if (!next) return state;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (!next) {
+        return state;
+      }
       return {
         past: [...state.past, state.present].slice(-HISTORY_LIMIT),
         present: next,

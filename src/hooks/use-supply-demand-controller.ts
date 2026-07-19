@@ -4,11 +4,20 @@ import {
   getEquilibrium,
   validateDataset,
 } from '@/lib/supply-demand';
-import type { Type$DatasetRow } from '@/types/core';
 
 export const useSupplyDemandExplorer = (options: {
-  data: Array<Type$DatasetRow>;
-  onChange: (value: Array<Type$DatasetRow>) => unknown;
+  data: Array<{
+    cost: number | null;
+    demand: number | null;
+    supply: number | null;
+  }>;
+  onChange: (
+    value: Array<{
+      cost: number | null;
+      demand: number | null;
+      supply: number | null;
+    }>,
+  ) => unknown;
 }) => {
   const sortedDataset = useMemo(
     () => getCompleteDataset(options.data),

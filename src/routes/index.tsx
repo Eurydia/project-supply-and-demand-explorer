@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { useSupplyDemandExplorer } from '@/hooks/use-supply-demand-controller';
 import { DataEntryCard } from '@/components/data-entry-card';
-import { AnalysisCard } from '@/components/AnalysisCard';
+import { AnalysisCard } from '@/components/analysis-card';
 import { ExplorerHeader } from '@/components/app-header';
 import { useDatasetHistory } from '@/hooks/use-dataset-history';
 
@@ -36,7 +36,10 @@ function RouteComponent() {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 8 }}>
-            <AnalysisCard {...controller} />
+            <AnalysisCard
+              dataset={controller.sortedDataset}
+              equilibrium={controller.equilibrium}
+            />
           </Grid>
         </Grid>
       </Stack>
