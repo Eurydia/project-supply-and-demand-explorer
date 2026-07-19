@@ -1,287 +1,253 @@
-import { Box } from '@mui/material';
-import type {
-  CompleteDatasetRowWithIndex,
-  Equilibrium,
-} from '@/lib/supplyDemand';
+import { Box, Stack, Typography, useTheme } from '@mui/material';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ReferenceDot,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { useMemo } from 'react';
+import type { FC } from 'react';
+import type { TooltipContentProps } from 'recharts';
+import type { Equilibrium, Type$DatasetRowWithIndex } from '@/types/core';
+import { formatTick } from '@/utils/format';
 
-const CHART_WIDTH = 820;
-const CHART_HEIGHT = 430;
-const CHART_MARGIN = { top: 54, right: 34, bottom: 58, left: 68 };
-const PLOT_WIDTH = CHART_WIDTH - CHART_MARGIN.left - CHART_MARGIN.right;
-const PLOT_HEIGHT = CHART_HEIGHT - CHART_MARGIN.top - CHART_MARGIN.bottom;
-const SUPPLY_COLOR = '#59663e';
-const DEMAND_COLOR = '#96513e';
-const GRID_COLOR = '#b6ad9b';
-const CLAY_COLOR = '#95543f';
-const OCHRE_COLOR = '#b88f4f';
-const INK_COLOR = '#2f352e';
-const PAPER_COLOR = '#f6f0e4';
-
-const formatTick = (value: number) =>
-  value.toLocaleString('th-TH', { maximumFractionDigits: 1 });
-
-function createTicks(minimum: number, maximum: number, count = 6) {
-  return Array.from(
-    { length: count },
-    (_, index) => minimum + ((maximum - minimum) * index) / (count - 1),
-  );
-}
-
-type Props = {
-  data: Array<CompleteDatasetRowWithIndex>;
-  equilibrium: Equilibrium | null;
-};
-
-export function SupplyDemandChart({ data, equilibrium }: Props) {
-  if (data.length === 0) return null;
-
-  const prices = data.map((row) => row.cost);
-  const quantities = data.flatMap((row) => [row.supply, row.demand]);
-  if (equilibrium) {
-    prices.push(equilibrium.price);
-    quantities.push(equilibrium.quantity);
-  }
-
-  const minimumPrice = Math.min(...prices);
-  const maximumPrice = Math.max(...prices);
-  const minimumQuantity = Math.min(...quantities);
-  const maximumQuantity = Math.max(...quantities);
-  const priceSpan =
-    maximumPrice - minimumPrice || Math.max(Math.abs(maximumPrice), 1);
-  const quantitySpan =
-    maximumQuantity - minimumQuantity || Math.max(Math.abs(maximumQuantity), 1);
-  const chartMinimumPrice = minimumPrice - priceSpan * 0.04;
-  const chartMaximumPrice = maximumPrice + priceSpan * 0.04;
-  const chartMinimumQuantity = minimumQuantity - quantitySpan * 0.08;
-  const chartMaximumQuantity = maximumQuantity + quantitySpan * 0.08;
-
-  const toX = (value: number) =>
-    CHART_MARGIN.left +
-    ((value - chartMinimumPrice) / (chartMaximumPrice - chartMinimumPrice)) *
-      PLOT_WIDTH;
-  const toY = (value: number) =>
-    CHART_MARGIN.top +
-    PLOT_HEIGHT -
-    ((value - chartMinimumQuantity) /
-      (chartMaximumQuantity - chartMinimumQuantity)) *
-      PLOT_HEIGHT;
-
-  const priceTicks = createTicks(minimumPrice, maximumPrice);
-  const quantityTicks = createTicks(minimumQuantity, maximumQuantity);
-  const supplyPoints = data
-    .map((row) => `${toX(row.cost)},${toY(row.supply)}`)
-    .join(' ');
-  const demandPoints = data
-    .map((row) => `${toX(row.cost)},${toY(row.demand)}`)
-    .join(' ');
+function ChartTooltip({ active, label, payload }: TooltipContentProps) {
+  if (!active || payload.length === 0) return null;
 
   return (
     <Box
-      component="svg"
-      viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
-      role="img"
-      aria-label="กราฟเปรียบเทียบอุปทานและอุปสงค์ตามระดับราคา"
-      sx={{
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        minHeight: 360,
-        overflow: 'visible',
-        fontFamily: '"Noto Sans Thai", system-ui, sans-serif',
-        '@media (max-width: 620px)': { minHeight: 320 },
-      }}
+      sx={(theme) => ({
+        minWidth: 150,
+        p: '9px 11px',
+        color: theme.palette.text.primary,
+        bgcolor: 'rgba(246, 240, 228, 0.96)',
+        border: `2px solid ${theme.palette.text.primary}`,
+        boxShadow: '3px 3px rgba(47, 53, 46, 0.18)',
+      })}
     >
-      <g aria-hidden="true">
-        <line
-          x1="560"
-          y1="24"
-          x2="596"
-          y2="24"
-          stroke={SUPPLY_COLOR}
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <text x="604" y="29" fill="#343a33" fontSize="12" fontWeight="700">
-          อุปทาน (S)
-        </text>
-        <line
-          x1="682"
-          y1="24"
-          x2="718"
-          y2="24"
-          stroke={DEMAND_COLOR}
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <text x="726" y="29" fill="#343a33" fontSize="12" fontWeight="700">
-          อุปสงค์ (D)
-        </text>
-      </g>
-
-      {quantityTicks.map((tick, index) => {
-        const y = toY(tick);
-        return (
-          <g key={`y-${index}`}>
-            <line
-              x1={CHART_MARGIN.left}
-              x2={CHART_WIDTH - CHART_MARGIN.right}
-              y1={y}
-              y2={y}
-              stroke={GRID_COLOR}
-              strokeWidth="1"
-              strokeDasharray="2 5"
-            />
-            <text
-              x={CHART_MARGIN.left - 12}
-              y={y + 4}
-              textAnchor="end"
-              fill="#454a42"
-              fontSize="11"
-            >
-              {formatTick(tick)}
-            </text>
-          </g>
-        );
-      })}
-
-      {priceTicks.map((tick, index) => {
-        const x = toX(tick);
-        return (
-          <g key={`x-${index}`}>
-            <line
-              x1={x}
-              x2={x}
-              y1={CHART_MARGIN.top}
-              y2={CHART_HEIGHT - CHART_MARGIN.bottom}
-              stroke={GRID_COLOR}
-              strokeWidth="1"
-              strokeDasharray="2 5"
-            />
-            <text
-              x={x}
-              y={CHART_HEIGHT - CHART_MARGIN.bottom + 24}
-              textAnchor="middle"
-              fill="#454a42"
-              fontSize="11"
-            >
-              {formatTick(tick)}
-            </text>
-          </g>
-        );
-      })}
-
-      <line
-        x1={CHART_MARGIN.left}
-        x2={CHART_MARGIN.left}
-        y1={CHART_MARGIN.top}
-        y2={CHART_HEIGHT - CHART_MARGIN.bottom}
-        stroke="#424940"
-        strokeWidth="1.7"
-      />
-      <line
-        x1={CHART_MARGIN.left}
-        x2={CHART_WIDTH - CHART_MARGIN.right}
-        y1={CHART_HEIGHT - CHART_MARGIN.bottom}
-        y2={CHART_HEIGHT - CHART_MARGIN.bottom}
-        stroke="#424940"
-        strokeWidth="1.7"
-      />
-      <text
-        x={CHART_MARGIN.left + PLOT_WIDTH / 2}
-        y={CHART_HEIGHT - 12}
-        textAnchor="middle"
-        fill="#343a33"
-        fontSize="12"
-        fontWeight="700"
+      <Typography
+        sx={{
+          mb: '4px',
+          fontFamily: '"Mali", sans-serif',
+          fontSize: '0.72rem',
+          fontWeight: 700,
+        }}
       >
-        ราคา (บาท)
-      </text>
-      <text
-        x="18"
-        y={CHART_MARGIN.top + PLOT_HEIGHT / 2}
-        textAnchor="middle"
-        transform={`rotate(-90 18 ${CHART_MARGIN.top + PLOT_HEIGHT / 2})`}
-        fill="#343a33"
-        fontSize="12"
-        fontWeight="700"
-      >
-        ปริมาณ (หน่วย)
-      </text>
-
-      {equilibrium && (
-        <g>
-          <line
-            x1={toX(equilibrium.price)}
-            x2={toX(equilibrium.price)}
-            y1={CHART_MARGIN.top}
-            y2={CHART_HEIGHT - CHART_MARGIN.bottom}
-            stroke={CLAY_COLOR}
-            strokeWidth="1.5"
-            strokeDasharray="5 5"
-          />
-          <circle
-            cx={toX(equilibrium.price)}
-            cy={toY(equilibrium.quantity)}
-            r="7"
-            fill={OCHRE_COLOR}
-            stroke={INK_COLOR}
-            strokeWidth="2"
-          >
-            <title>
-              จุดสมดุล: ราคา {formatTick(equilibrium.price)} บาท, ปริมาณ{' '}
-              {formatTick(equilibrium.quantity)} หน่วย
-            </title>
-          </circle>
-        </g>
-      )}
-
-      <polyline
-        points={supplyPoints}
-        fill="none"
-        stroke={SUPPLY_COLOR}
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <polyline
-        points={demandPoints}
-        fill="none"
-        stroke={DEMAND_COLOR}
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {data.map((row) => (
-        <g key={row.rowIndex}>
-          <circle
-            cx={toX(row.cost)}
-            cy={toY(row.supply)}
-            r="4.5"
-            fill={PAPER_COLOR}
-            stroke={SUPPLY_COLOR}
-            strokeWidth="2.2"
-          >
-            <title>
-              ราคา {formatTick(row.cost)} บาท, อุปทาน {formatTick(row.supply)}{' '}
-              หน่วย
-            </title>
-          </circle>
-          <circle
-            cx={toX(row.cost)}
-            cy={toY(row.demand)}
-            r="4.5"
-            fill={PAPER_COLOR}
-            stroke={DEMAND_COLOR}
-            strokeWidth="2.2"
-          >
-            <title>
-              ราคา {formatTick(row.cost)} บาท, อุปสงค์ {formatTick(row.demand)}{' '}
-              หน่วย
-            </title>
-          </circle>
-        </g>
+        ราคา {typeof label === 'number' ? formatTick(label) : label} บาท
+      </Typography>
+      {payload.map((entry) => (
+        <Stack
+          direction="row"
+          key={String(entry.dataKey)}
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '14px',
+          }}
+        >
+          <Stack direction="row" sx={{ alignItems: 'center', gap: '6px' }}>
+            <Box
+              component="span"
+              sx={{
+                width: 14,
+                borderTop: `2px solid ${entry.color ?? '#2f352e'}`,
+              }}
+            />
+            <Typography component="span" sx={{ fontSize: '0.7rem' }}>
+              {entry.name}
+            </Typography>
+          </Stack>
+          <Typography component="strong" sx={{ fontSize: '0.72rem' }}>
+            {typeof entry.value === 'number' ? formatTick(entry.value) : '—'}
+          </Typography>
+        </Stack>
       ))}
     </Box>
   );
 }
+
+export const SupplyDemandChart: FC<{
+  data: Array<Type$DatasetRowWithIndex>;
+  equilibrium: Equilibrium | null;
+}> = (props) => {
+  const prices = useMemo(() => {
+    const dt = props.data.map((row) => row.cost);
+    if (props.equilibrium !== null) {
+      dt.push(props.equilibrium.price);
+    }
+    return dt;
+  }, [props.data, props.equilibrium]);
+  const quantities = useMemo(() => {
+    const dt = props.data.flatMap((row) => [row.supply, row.demand]);
+    if (props.equilibrium !== null) {
+      dt.push(props.equilibrium.quantity);
+    }
+    return dt;
+  }, [props.data]);
+
+  const [
+    minimumPrice,
+    maximumPrice,
+    minimumQuantity,
+    maximumQuantity,
+    priceSpan,
+    quantitySpan,
+  ] = useMemo(() => {
+    const pMin = Math.min(...prices);
+    const pMax = Math.max(...prices);
+    const qMin = Math.min(...quantities);
+    const qMax = Math.max(...quantities);
+    return [
+      pMin,
+      pMax,
+      qMin,
+      qMax,
+      pMax - pMin || Math.max(Math.abs(pMax), 1),
+      qMax - qMin || Math.max(Math.abs(qMax), 1),
+    ];
+  }, [prices, quantities]);
+  const t = useTheme();
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100%',
+        height: 390,
+      }}
+    >
+      <Stack
+        direction="row"
+        aria-hidden="true"
+        sx={{
+          alignItems: 'center',
+          pointerEvents: 'none',
+        }}
+      >
+        {[
+          { label: 'อุปทาน (S)', color: t.palette.primary.main },
+          { label: 'อุปสงค์ (D)', color: t.palette.secondary.main },
+        ].map((item) => (
+          <Stack
+            direction="row"
+            key={item.label}
+            spacing={3}
+            sx={{ alignItems: 'center' }}
+          >
+            <Box
+              component="span"
+              sx={{ width: 26, borderTop: `3px solid ${item.color}` }}
+            />
+            <Typography component="span">{item.label}</Typography>
+          </Stack>
+        ))}
+      </Stack>
+
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart
+          data={props.data}
+          margin={{ top: 52, right: 28, bottom: 42, left: 18 }}
+        >
+          <CartesianGrid stroke={t.palette.divider} strokeDasharray="2 5" />
+          <XAxis
+            type="number"
+            dataKey="cost"
+            domain={[
+              minimumPrice - priceSpan * 0.04,
+              maximumPrice + priceSpan * 0.04,
+            ]}
+            tickCount={6}
+            tickFormatter={formatTick}
+            stroke="#424940"
+            tick={{ fill: '#454a42', fontSize: 11 }}
+            label={{
+              value: 'ราคา (บาท)',
+              position: 'insideBottom',
+              offset: -26,
+              fill: '#343a33',
+              fontSize: 12,
+              fontWeight: 700,
+            }}
+          />
+          <YAxis
+            type="number"
+            domain={[
+              minimumQuantity - quantitySpan * 0.08,
+              maximumQuantity + quantitySpan * 0.08,
+            ]}
+            tickCount={6}
+            tickFormatter={formatTick}
+            stroke="#424940"
+            tick={{ fill: '#454a42', fontSize: 11 }}
+            width={54}
+            label={{
+              value: 'ปริมาณ (หน่วย)',
+              angle: -90,
+              position: 'insideLeft',
+              offset: 2,
+              fill: '#343a33',
+              fontSize: 12,
+              fontWeight: 700,
+            }}
+          />
+          <Tooltip
+            content={ChartTooltip}
+            cursor={{ stroke: '#8f887b', strokeDasharray: '3 4' }}
+          />
+
+          {props.equilibrium !== null && (
+            <>
+              <ReferenceLine
+                x={props.equilibrium.price}
+                stroke="#95543f"
+                strokeWidth={1.5}
+                strokeDasharray="5 5"
+              />
+              <ReferenceDot
+                x={props.equilibrium.price}
+                y={props.equilibrium.quantity}
+                r={7}
+                fill="#b88f4f"
+                stroke="#2f352e"
+                strokeWidth={2}
+              />
+            </>
+          )}
+
+          <Line
+            type="linear"
+            dataKey="supply"
+            name="อุปทาน (S)"
+            stroke={t.palette.primary.main}
+            strokeWidth={3}
+            dot={{ r: 4.5, fill: t.palette.background.paper, strokeWidth: 2.2 }}
+            activeDot={{
+              r: 6,
+              fill: t.palette.background.paper,
+              strokeWidth: 2.5,
+            }}
+            isAnimationActive={false}
+          />
+          <Line
+            type="linear"
+            dataKey="demand"
+            name="อุปสงค์ (D)"
+            stroke={t.palette.secondary.main}
+            strokeWidth={3}
+            dot={{ r: 4.5, fill: t.palette.background.paper, strokeWidth: 2.2 }}
+            activeDot={{
+              r: 6,
+              fill: t.palette.background.paper,
+              strokeWidth: 2.5,
+            }}
+            isAnimationActive={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </Box>
+  );
+};

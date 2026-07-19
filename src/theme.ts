@@ -53,6 +53,15 @@ let theme = createTheme({
     },
   },
   components: {
+    MuiStack: {
+      defaultProps: { useFlexGap: true },
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        disableTouchRipple: true,
+      },
+    },
+    MuiButton: { defaultProps: { disableElevation: true } },
     MuiCssBaseline: {
       styleOverrides: {
         ':root': {

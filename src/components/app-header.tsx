@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
-import { memo, type FC } from 'react';
+import { memo } from 'react';
+import type { FC } from 'react';
 
 export const ExplorerHeader: FC = memo(
   () => {
@@ -7,11 +8,8 @@ export const ExplorerHeader: FC = memo(
       <Box
         component="header"
         sx={(theme) => ({
-          px: '42px',
-          pt: '28px',
-          pb: '26px',
-          pl: '50px',
-          overflow: 'hidden',
+          paddingX: 4,
+          paddingY: 2,
           color: theme.palette.text.primary,
           bgcolor: `${theme.palette.background.paper} !important`,
           backgroundImage: [
@@ -40,7 +38,7 @@ export const ExplorerHeader: FC = memo(
                 backgroundColor: t.palette.secondary.main,
                 borderBottomColor: t.palette.secondary.dark,
                 borderBottomStyle: 'solid',
-                borderBottomWidth: 4,
+                borderBottomWmdth: 4,
                 transform: 'rotate(-1deg)',
                 fontWeight: 900,
               })}
