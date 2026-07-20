@@ -13,7 +13,7 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
-    "gh-pages": "pnpm exec gh-pages -b gh-pages -d ./dist/"
+    "deploy-gh-pages": "pnpm exec gh-pages -b gh-pages -d ./dist/"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

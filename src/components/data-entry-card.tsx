@@ -14,11 +14,20 @@ import { DatasetTable } from './data-entry-table';
 import { NotebookCard } from './notebook-card';
 import { SectionHeading } from './section-heading';
 import type { FC } from 'react';
-import type { Type$DatasetRow } from '@/types/core';
 
 export const DataEntryCard: FC<{
-  data: Array<Type$DatasetRow>;
-  onChange: (data: Array<Type$DatasetRow>) => unknown;
+  data: Array<{
+    cost: number | null;
+    demand: number | null;
+    supply: number | null;
+  }>;
+  onChange: (
+    data: Array<{
+      cost: number | null;
+      demand: number | null;
+      supply: number | null;
+    }>,
+  ) => unknown;
   onUndo: () => unknown;
   onRedo: () => unknown;
   onClearData: () => unknown;

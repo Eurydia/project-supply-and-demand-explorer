@@ -4,7 +4,6 @@ import { getTheme, mainTheme, registerTheme } from 'handsontable/themes';
 import { useMemo } from 'react';
 import type { FC } from 'react';
 import type { CellChange, ChangeSource } from 'handsontable';
-import type { Type$DatasetRow } from '@/types/core';
 
 registerAllModules();
 
@@ -48,9 +47,19 @@ const tableTheme =
     });
 
 type Props = {
-  data: Array<Type$DatasetRow>;
+  data: Array<{
+    cost: number | null;
+    demand: number | null;
+    supply: number | null;
+  }>;
   invalidCells: Set<{ row: number; column: 'cost' | 'supply' | 'demand' }>;
-  onChange: (data: Array<Type$DatasetRow>) => void;
+  onChange: (
+    data: Array<{
+      cost: number | null;
+      demand: number | null;
+      supply: number | null;
+    }>,
+  ) => void;
 };
 
 export const DatasetTable: FC<Props> = (props) => {

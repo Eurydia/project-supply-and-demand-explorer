@@ -1,26 +1,46 @@
+import { z } from 'zod/v4';
 import { useCallback, useEffect, useState } from 'react';
-import type { Type$DatasetRow } from '@/types/core';
 import { DATASET_STORAGE_KEY } from '@/lib/supply-demand';
-import { Schema$DatasetRow } from '@/types/core';
-
-const HISTORY_LIMIT = 50;
-
-function loadStoredDataset(): Array<Type$DatasetRow> {
-  try {
-    const stored = window.localStorage.getItem(DATASET_STORAGE_KEY);
-    if (!stored) return [];
-    return Schema$DatasetRow.array().catch([]).parse(JSON.parse(stored));
-  } catch {
-    return [];
-  }
-}
 
 export const useDatasetHistory = () => {
-  const [history, setHistory] = useState(() => ({
-    future: [] as Array<Array<Type$DatasetRow>>,
-    past: [] as Array<Array<Type$DatasetRow>>,
-    present: loadStoredDataset(),
-  }));
+  const [history, setHistory] = useState(() => {
+    let present: Array<{
+      demand: number | null;
+      supply: number | null;
+      cost: number | null;
+    }> = [];
+    try {
+      present = z
+        .object({
+          demand: z.number().nullable(),
+          supply: z.number().nullable(),
+          cost: z.number().nullable(),
+        })
+        .array()
+        .catch([])
+        .parse(JSON.parse(localStorage.getItem(DATASET_STORAGE_KEY) ?? '[]'));
+    } catch {
+      present = [];
+    }
+
+    return {
+      future: [] as Array<
+        Array<{
+          demand: number | null;
+          supply: number | null;
+          cost: number | null;
+        }>
+      >,
+      past: [] as Array<
+        Array<{
+          demand: number | null;
+          supply: number | null;
+          cost: number | null;
+        }>
+      >,
+      present,
+    };
+  });
 
   useEffect(() => {
     window.localStorage.setItem(
@@ -29,16 +49,26 @@ export const useDatasetHistory = () => {
     );
   }, [history.present]);
 
-  const update = useCallback((value: Array<Type$DatasetRow>) => {
-    setHistory((state) => {
-      if (JSON.stringify(value) === JSON.stringify(state.present)) return state;
-      return {
-        past: [...state.past, state.present].slice(-HISTORY_LIMIT),
-        present: value,
-        future: [],
-      };
-    });
-  }, []);
+  const update = useCallback(
+    (
+      value: Array<{
+        demand: number | null;
+        supply: number | null;
+        cost: number | null;
+      }>,
+    ) => {
+      setHistory((state) => {
+        if (JSON.stringify(value) === JSON.stringify(state.present))
+          return state;
+        return {
+          past: [...state.past, state.present],
+          present: value,
+          future: [],
+        };
+      });
+    },
+    [],
+  );
 
   const undo = useCallback(() => {
     setHistory((state) => {
@@ -47,7 +77,7 @@ export const useDatasetHistory = () => {
       return {
         past: state.past.slice(0, -1),
         present: lastState,
-        future: [state.present, ...state.future].slice(0, HISTORY_LIMIT),
+        future: [state.present, ...state.future],
       };
     });
   }, []);
@@ -60,7 +90,7 @@ export const useDatasetHistory = () => {
         return state;
       }
       return {
-        past: [...state.past, state.present].slice(-HISTORY_LIMIT),
+        past: [...state.past, state.present],
         present: next,
         future,
       };

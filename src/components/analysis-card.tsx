@@ -3,7 +3,7 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { NotebookCard } from './notebook-card';
-import { SupplyDemandChart } from './SupplyDemandChart';
+import { SupplyDemandChart } from './supply-demand-chart';
 import { SectionHeading } from './section-heading';
 import type { FC } from 'react';
 
