@@ -18,9 +18,9 @@ function RouteComponent() {
   });
   return (
     <Container maxWidth="xl" component={'main'}>
-      <Stack spacing={4} sx={{ padding: 3 }}>
+      <Stack spacing={{ xs: 2, md: 4 }} sx={{ padding: { xs: 1, md: 3 } }}>
         <ExplorerHeader />
-        <Grid container spacing={4}>
+        <Grid container spacing={{ xs: 2, md: 4 }}>
           <Grid size={{ xs: 12, md: 4 }}>
             <DataEntryCard
               onUndo={stateHistory.undo}

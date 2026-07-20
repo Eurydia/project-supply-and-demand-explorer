@@ -18,7 +18,9 @@ import { formatTick } from '@/utils/format';
 function ChartTooltip({ active, label, payload }: TooltipContentProps) {
   if (!active || payload.length === 0) return null;
 
-  const visiblePayload = payload.filter((entry) => entry.dataKey !== 'cost');
+  const visiblePayload = payload.filter(
+    (entry) => entry.dataKey !== 'quantity',
+  );
 
   return (
     <Box
@@ -38,19 +40,19 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
           fontWeight: 700,
         }}
       >
-        ราคา {typeof label === 'number' ? formatTick(label) : label} บาท
+        ปริมาณ {typeof label === 'number' ? formatTick(label) : label} หน่วย
       </Typography>
       {visiblePayload.map((entry) => (
         <Stack
           direction="row"
           key={String(entry.dataKey)}
+          spacing={2}
           sx={{
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '14px',
           }}
         >
-          <Stack direction="row" sx={{ alignItems: 'center', gap: '6px' }}>
+          <Stack spacing={3} direction="row" sx={{ alignItems: 'center' }}>
             <Box
               component="span"
               sx={{
@@ -63,7 +65,8 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
             </Typography>
           </Stack>
           <Typography component="strong" sx={{ fontSize: '0.72rem' }}>
-            {typeof entry.value === 'number' ? formatTick(entry.value) : '—'}
+            {typeof entry.value === 'number' ? formatTick(entry.value) : '—'}{' '}
+            บาท
           </Typography>
         </Stack>
       ))}
@@ -85,35 +88,61 @@ export const SupplyDemandChart: FC<{
   } | null;
 }> = (props) => {
   const chartData = useMemo(() => {
-    const data: Array<{
-      rowIndex?: number;
-      supply: number | null;
-      demand: number | null;
-      cost: number;
-      equilibrium?: number;
-    }> = props.data.map((row) => ({ ...row }));
-    const equilibrium = props.equilibrium;
-
-    if (equilibrium !== null) {
-      const matchingRow = data.find(
-        (row) => Math.abs(row.cost - equilibrium.price) < Number.EPSILON,
+    const interpolateCost = (
+      points: Array<{ quantity: number; cost: number }>,
+      quantity: number,
+    ) => {
+      const sortedPoints = points.toSorted(
+        (left, right) => left.quantity - right.quantity,
       );
+      const exactPoint = sortedPoints.find(
+        (point) => Math.abs(point.quantity - quantity) < 1e-9,
+      );
+      if (exactPoint !== undefined) return exactPoint.cost;
 
-      if (matchingRow !== undefined) {
-        matchingRow.equilibrium = equilibrium.quantity;
-      } else {
-        data.push({
-          cost: equilibrium.price,
-          supply: null,
-          demand: null,
-          equilibrium: equilibrium.quantity,
-        });
+      for (let index = 0; index < sortedPoints.length - 1; index += 1) {
+        const current = sortedPoints[index];
+        const next = sortedPoints[index + 1];
+        if (current === undefined || next === undefined) continue;
+        if (quantity < current.quantity || quantity > next.quantity) continue;
+
+        const position =
+          (quantity - current.quantity) / (next.quantity - current.quantity);
+        return current.cost + position * (next.cost - current.cost);
       }
+
+      return null;
+    };
+
+    const supplyPoints = props.data.map((row) => ({
+      quantity: row.supply,
+      cost: row.cost,
+    }));
+    const demandPoints = props.data.map((row) => ({
+      quantity: row.demand,
+      cost: row.cost,
+    }));
+    const quantities = new Set([
+      ...supplyPoints.map((point) => point.quantity),
+      ...demandPoints.map((point) => point.quantity),
+    ]);
+    if (props.equilibrium !== null) {
+      quantities.add(props.equilibrium.quantity);
     }
 
-    return data.toSorted((left, right) => left.cost - right.cost);
+    return [...quantities]
+      .toSorted((left, right) => left - right)
+      .map((quantity) => ({
+        quantity,
+        supplyCost: interpolateCost(supplyPoints, quantity),
+        demandCost: interpolateCost(demandPoints, quantity),
+        equilibriumCost:
+          props.equilibrium !== null &&
+          Math.abs(quantity - props.equilibrium.quantity) < 1e-9
+            ? props.equilibrium.price
+            : null,
+      }));
   }, [props.data, props.equilibrium]);
-
   const prices = useMemo(() => {
     const dt = props.data.map((row) => row.cost);
     if (props.equilibrium !== null) {
@@ -161,6 +190,7 @@ export const SupplyDemandChart: FC<{
     >
       <Stack
         direction="row"
+        spacing={4}
         sx={{
           alignItems: 'center',
           pointerEvents: 'none',
@@ -173,7 +203,7 @@ export const SupplyDemandChart: FC<{
           <Stack
             direction="row"
             key={item.label}
-            spacing={3}
+            spacing={2}
             sx={{ alignItems: 'center' }}
           >
             <Box
@@ -186,36 +216,31 @@ export const SupplyDemandChart: FC<{
       </Stack>
 
       <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart
-          data={chartData}
-          margin={{ top: 52, right: 28, bottom: 42, left: 18 }}
-        >
+        <ComposedChart data={chartData} margin={{ top: 52, right: 28, bottom: 42, left: 18 }}>
           <CartesianGrid stroke={t.palette.divider} strokeDasharray="2 5" />
           <XAxis
             type="number"
-            dataKey="cost"
+            dataKey="quantity"
             domain={[
-              minimumPrice - priceSpan * 0.04,
-              maximumPrice + priceSpan * 0.04,
+              minimumQuantity - quantitySpan * 0.04,
+              maximumQuantity + quantitySpan * 0.04,
             ]}
             tickCount={6}
             tickFormatter={formatTick}
             stroke="#424940"
             tick={{ fill: '#454a42', fontSize: 11 }}
             label={{
-              value: 'ราคา (บาท)',
+              value: 'ปริมาณ (หน่วย)',
               position: 'insideBottom',
-              offset: -26,
               fill: '#343a33',
-              fontSize: 12,
               fontWeight: 700,
             }}
           />
           <YAxis
             type="number"
             domain={[
-              minimumQuantity - quantitySpan * 0.08,
-              maximumQuantity + quantitySpan * 0.08,
+              minimumPrice - priceSpan * 0.08,
+              maximumPrice + priceSpan * 0.08,
             ]}
             tickCount={6}
             tickFormatter={formatTick}
@@ -223,12 +248,10 @@ export const SupplyDemandChart: FC<{
             tick={{ fill: '#454a42', fontSize: 11 }}
             width={54}
             label={{
-              value: 'ปริมาณ (หน่วย)',
+              value: 'ราคา (บาท)',
               angle: -90,
               position: 'insideLeft',
-              offset: 2,
               fill: '#343a33',
-              fontSize: 12,
               fontWeight: 700,
             }}
           />
@@ -240,13 +263,13 @@ export const SupplyDemandChart: FC<{
           {props.equilibrium !== null && (
             <>
               <ReferenceLine
-                x={props.equilibrium.price}
+                y={props.equilibrium.price}
                 stroke="#95543f"
                 strokeWidth={1.5}
                 strokeDasharray="5 5"
               />
               <Scatter
-                dataKey="equilibrium"
+                dataKey="equilibriumCost"
                 name="จุดสมดุล"
                 isAnimationActive={false}
                 fill="#b88f4f"
@@ -258,7 +281,7 @@ export const SupplyDemandChart: FC<{
 
           <Line
             type="linear"
-            dataKey="supply"
+            dataKey="supplyCost"
             connectNulls
             name="อุปทาน (S)"
             stroke={t.palette.primary.main}
@@ -273,7 +296,7 @@ export const SupplyDemandChart: FC<{
           />
           <Line
             type="linear"
-            dataKey="demand"
+            dataKey="demandCost"
             connectNulls
             name="อุปสงค์ (D)"
             stroke={t.palette.secondary.main}
