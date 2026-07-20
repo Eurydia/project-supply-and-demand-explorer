@@ -1,11 +1,11 @@
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
   CartesianGrid,
+  ComposedChart,
   Line,
-  LineChart,
-  ReferenceDot,
   ReferenceLine,
   ResponsiveContainer,
+  Scatter,
   Tooltip,
   XAxis,
   YAxis,
@@ -17,6 +17,8 @@ import { formatTick } from '@/utils/format';
 
 function ChartTooltip({ active, label, payload }: TooltipContentProps) {
   if (!active || payload.length === 0) return null;
+
+  const visiblePayload = payload.filter((entry) => entry.dataKey !== 'cost');
 
   return (
     <Box
@@ -38,7 +40,7 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
       >
         ราคา {typeof label === 'number' ? formatTick(label) : label} บาท
       </Typography>
-      {payload.map((entry) => (
+      {visiblePayload.map((entry) => (
         <Stack
           direction="row"
           key={String(entry.dataKey)}
@@ -82,6 +84,36 @@ export const SupplyDemandChart: FC<{
     exact: boolean;
   } | null;
 }> = (props) => {
+  const chartData = useMemo(() => {
+    const data: Array<{
+      rowIndex?: number;
+      supply: number | null;
+      demand: number | null;
+      cost: number;
+      equilibrium?: number;
+    }> = props.data.map((row) => ({ ...row }));
+    const equilibrium = props.equilibrium;
+
+    if (equilibrium !== null) {
+      const matchingRow = data.find(
+        (row) => Math.abs(row.cost - equilibrium.price) < Number.EPSILON,
+      );
+
+      if (matchingRow !== undefined) {
+        matchingRow.equilibrium = equilibrium.quantity;
+      } else {
+        data.push({
+          cost: equilibrium.price,
+          supply: null,
+          demand: null,
+          equilibrium: equilibrium.quantity,
+        });
+      }
+    }
+
+    return data.toSorted((left, right) => left.cost - right.cost);
+  }, [props.data, props.equilibrium]);
+
   const prices = useMemo(() => {
     const dt = props.data.map((row) => row.cost);
     if (props.equilibrium !== null) {
@@ -95,7 +127,7 @@ export const SupplyDemandChart: FC<{
       dt.push(props.equilibrium.quantity);
     }
     return dt;
-  }, [props.data]);
+  }, [props.data, props.equilibrium]);
 
   const [
     minimumPrice,
@@ -154,8 +186,8 @@ export const SupplyDemandChart: FC<{
       </Stack>
 
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          data={props.data}
+        <ComposedChart
+          data={chartData}
           margin={{ top: 52, right: 28, bottom: 42, left: 18 }}
         >
           <CartesianGrid stroke={t.palette.divider} strokeDasharray="2 5" />
@@ -213,10 +245,10 @@ export const SupplyDemandChart: FC<{
                 strokeWidth={1.5}
                 strokeDasharray="5 5"
               />
-              <ReferenceDot
-                x={props.equilibrium.price}
-                y={props.equilibrium.quantity}
-                r={7}
+              <Scatter
+                dataKey="equilibrium"
+                name="จุดสมดุล"
+                isAnimationActive={false}
                 fill="#b88f4f"
                 stroke="#2f352e"
                 strokeWidth={2}
@@ -227,6 +259,7 @@ export const SupplyDemandChart: FC<{
           <Line
             type="linear"
             dataKey="supply"
+            connectNulls
             name="อุปทาน (S)"
             stroke={t.palette.primary.main}
             strokeWidth={3}
@@ -241,6 +274,7 @@ export const SupplyDemandChart: FC<{
           <Line
             type="linear"
             dataKey="demand"
+            connectNulls
             name="อุปสงค์ (D)"
             stroke={t.palette.secondary.main}
             strokeWidth={3}
@@ -252,7 +286,7 @@ export const SupplyDemandChart: FC<{
             }}
             isAnimationActive={false}
           />
-        </LineChart>
+        </ComposedChart>
       </ResponsiveContainer>
     </Box>
   );

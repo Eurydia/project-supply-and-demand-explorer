@@ -81,8 +81,6 @@ export const validateDataset = (
   const messages: Array<string> = [];
   let incompleteRows = 0;
   let invalidRows = 0;
-  console.debug(data);
-
   data.forEach((row, rowIndex) => {
     if (row.cost === null && row.demand === null && row.supply === null) {
       return;
