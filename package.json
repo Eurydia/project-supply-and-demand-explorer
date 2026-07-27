@@ -6,11 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
-    "start": "vite --port 3000",
     "build": "vite build && tsc",
     "serve": "vite preview",
     "check": "pnpx @biomejs/biome check --write",
-    "deploy-gh-pages": "pnpm exec gh-pages -b gh-pages -d ./dist/"
+    "deploy-gh-pages": "pnpx gh-pages -b gh-pages -d ./dist/"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
