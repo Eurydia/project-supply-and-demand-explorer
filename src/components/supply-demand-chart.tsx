@@ -1,4 +1,7 @@
-import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Stack, Typography, useTheme } from "@mui/material";
+import type { FC } from "react";
+import { useMemo } from "react";
+import type { TooltipContentProps } from "recharts";
 import {
   CartesianGrid,
   ComposedChart,
@@ -9,38 +12,35 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
-import { useMemo } from 'react';
-import type { FC } from 'react';
-import type { TooltipContentProps } from 'recharts';
-import { formatTick } from '@/utils/format';
+} from "recharts";
+import { formatTick } from "@/utils/format";
 
 function ChartTooltip({ active, label, payload }: TooltipContentProps) {
   if (!active || payload.length === 0) return null;
 
   const visiblePayload = payload.filter(
-    (entry) => entry.dataKey !== 'quantity',
+    (entry) => entry.dataKey !== "quantity",
   );
 
   return (
     <Box
       sx={(theme) => ({
-        padding: '9px 11px',
+        padding: "9px 11px",
         color: theme.palette.text.primary,
-        bgcolor: 'rgba(246, 240, 228, 0.96)',
+        bgcolor: "rgba(246, 240, 228, 0.96)",
         border: `2px solid ${theme.palette.text.primary}`,
-        boxShadow: '3px 3px rgba(47, 53, 46, 0.18)',
+        boxShadow: "3px 3px rgba(47, 53, 46, 0.18)",
       })}
     >
       <Typography
         sx={{
-          mb: '4px',
+          mb: "4px",
           fontFamily: '"Mali", sans-serif',
-          fontSize: '0.72rem',
+          fontSize: "0.72rem",
           fontWeight: 700,
         }}
       >
-        ปริมาณ {typeof label === 'number' ? formatTick(label) : label} หน่วย
+        ปริมาณ {typeof label === "number" ? formatTick(label) : label} หน่วย
       </Typography>
       {visiblePayload.map((entry) => (
         <Stack
@@ -48,24 +48,24 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
           key={String(entry.dataKey)}
           spacing={2}
           sx={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <Stack spacing={3} direction="row" sx={{ alignItems: 'center' }}>
+          <Stack spacing={3} direction="row" sx={{ alignItems: "center" }}>
             <Box
               component="span"
               sx={{
                 width: 14,
-                borderTop: `2px solid ${entry.color ?? '#2f352e'}`,
+                borderTop: `2px solid ${entry.color ?? "#2f352e"}`,
               }}
             />
-            <Typography component="span" sx={{ fontSize: '0.7rem' }}>
+            <Typography component="span" sx={{ fontSize: "0.7rem" }}>
               {entry.name}
             </Typography>
           </Stack>
-          <Typography component="strong" sx={{ fontSize: '0.72rem' }}>
-            {typeof entry.value === 'number' ? formatTick(entry.value) : '—'}{' '}
+          <Typography component="strong" sx={{ fontSize: "0.72rem" }}>
+            {typeof entry.value === "number" ? formatTick(entry.value) : "—"}{" "}
             บาท
           </Typography>
         </Stack>
@@ -183,8 +183,8 @@ export const SupplyDemandChart: FC<{
   return (
     <Box
       sx={{
-        position: 'relative',
-        width: '100%',
+        position: "relative",
+        width: "100%",
         height: 390,
       }}
     >
@@ -192,19 +192,19 @@ export const SupplyDemandChart: FC<{
         direction="row"
         spacing={4}
         sx={{
-          alignItems: 'center',
-          pointerEvents: 'none',
+          alignItems: "center",
+          pointerEvents: "none",
         }}
       >
         {[
-          { label: 'อุปทาน (S)', color: t.palette.primary.main },
-          { label: 'อุปสงค์ (D)', color: t.palette.secondary.main },
+          { label: "อุปทาน (S)", color: t.palette.primary.main },
+          { label: "อุปสงค์ (D)", color: t.palette.secondary.main },
         ].map((item) => (
           <Stack
             direction="row"
             key={item.label}
             spacing={2}
-            sx={{ alignItems: 'center' }}
+            sx={{ alignItems: "center" }}
           >
             <Box
               component="span"
@@ -216,7 +216,10 @@ export const SupplyDemandChart: FC<{
       </Stack>
 
       <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart data={chartData} margin={{ top: 52, right: 28, bottom: 42, left: 18 }}>
+        <ComposedChart
+          data={chartData}
+          margin={{ top: 52, right: 28, bottom: 42, left: 18 }}
+        >
           <CartesianGrid stroke={t.palette.divider} strokeDasharray="2 5" />
           <XAxis
             type="number"
@@ -228,11 +231,11 @@ export const SupplyDemandChart: FC<{
             tickCount={6}
             tickFormatter={formatTick}
             stroke="#424940"
-            tick={{ fill: '#454a42', fontSize: 11 }}
+            tick={{ fill: "#454a42", fontSize: 11 }}
             label={{
-              value: 'ปริมาณ (หน่วย)',
-              position: 'insideBottom',
-              fill: '#343a33',
+              value: "ปริมาณ (หน่วย)",
+              position: "insideBottom",
+              fill: "#343a33",
               fontWeight: 700,
             }}
           />
@@ -245,19 +248,19 @@ export const SupplyDemandChart: FC<{
             tickCount={6}
             tickFormatter={formatTick}
             stroke="#424940"
-            tick={{ fill: '#454a42', fontSize: 11 }}
+            tick={{ fill: "#454a42", fontSize: 11 }}
             width={54}
             label={{
-              value: 'ราคา (บาท)',
+              value: "ราคา (บาท)",
               angle: -90,
-              position: 'insideLeft',
-              fill: '#343a33',
+              position: "insideLeft",
+              fill: "#343a33",
               fontWeight: 700,
             }}
           />
           <Tooltip
             content={ChartTooltip}
-            cursor={{ stroke: '#8f887b', strokeDasharray: '3 4' }}
+            cursor={{ stroke: "#8f887b", strokeDasharray: "3 4" }}
           />
 
           {props.equilibrium !== null && (

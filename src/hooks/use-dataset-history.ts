@@ -1,6 +1,6 @@
-import { z } from 'zod/v4';
-import { useCallback, useEffect, useState } from 'react';
-import { DATASET_STORAGE_KEY } from '@/lib/supply-demand';
+import { useCallback, useEffect, useState } from "react";
+import { z } from "zod/v4";
+import { DATASET_STORAGE_KEY } from "@/lib/supply-demand";
 
 export const useDatasetHistory = () => {
   const [history, setHistory] = useState(() => {
@@ -18,7 +18,7 @@ export const useDatasetHistory = () => {
         })
         .array()
         .catch([])
-        .parse(JSON.parse(localStorage.getItem(DATASET_STORAGE_KEY) ?? '[]'));
+        .parse(JSON.parse(localStorage.getItem(DATASET_STORAGE_KEY) ?? "[]"));
     } catch {
       present = [];
     }

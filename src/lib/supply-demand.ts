@@ -1,5 +1,5 @@
-export const DATASET_STORAGE_KEY = 'supply-demand-explorer.dataset.v1';
-export const DATASET_FIELDS = ['cost', 'supply', 'demand'] as const;
+export const DATASET_STORAGE_KEY = "supply-demand-explorer.dataset.v1";
+export const DATASET_FIELDS = ["cost", "supply", "demand"] as const;
 export type DatasetField = (typeof DATASET_FIELDS)[number];
 
 export function getCompleteDataset(
@@ -76,7 +76,7 @@ export const validateDataset = (
 ) => {
   const invalidCells = new Set<{
     row: number;
-    column: 'cost' | 'supply' | 'demand';
+    column: "cost" | "supply" | "demand";
   }>();
   const messages: Array<string> = [];
   let incompleteRows = 0;
@@ -89,9 +89,9 @@ export const validateDataset = (
     const missingCells = DATASET_FIELDS.filter((field) => row[field] === null);
     if (missingCells.length > 0) {
       incompleteRows += 1;
-      missingCells.forEach((field) =>
-        invalidCells.add({ row: rowIndex, column: field }),
-      );
+      missingCells.forEach((field) => {
+        invalidCells.add({ row: rowIndex, column: field });
+      });
     }
 
     const nanCells = DATASET_FIELDS.filter(
@@ -99,19 +99,17 @@ export const validateDataset = (
     );
     if (nanCells.length > 0) {
       invalidRows += 1;
-      nanCells.forEach((field) =>
-        invalidCells.add({ row: rowIndex, column: field }),
-      );
+      nanCells.forEach((field) => {
+        invalidCells.add({ row: rowIndex, column: field });
+      });
     }
   });
 
   if (incompleteRows > 0) {
-    messages.push(`ข้อมูลไม่ครบ ${incompleteRows.toLocaleString('th-TH')} แถว`);
+    messages.push(`ข้อมูลไม่ครบ ${incompleteRows.toLocaleString("th-TH")} แถว`);
   }
   if (invalidRows > 0) {
-    messages.push(
-      `ข้อมูลถูกต้อง ${incompleteRows.toLocaleString('th-TH')} แถว`,
-    );
+    messages.push(`ข้อมูลถูกต้อง ${incompleteRows.toLocaleString("th-TH")} แถว`);
   }
 
   const completeDataset = getCompleteDataset(data);
@@ -125,14 +123,14 @@ export const validateDataset = (
   const duplicatePriceGroups = [...priceRows.values()].filter(
     (rows) => rows.length > 1,
   );
-  duplicatePriceGroups.forEach((rows) =>
-    rows.forEach((rowIndex) =>
-      invalidCells.add({ row: rowIndex, column: 'cost' }),
-    ),
-  );
+  duplicatePriceGroups.forEach((rows) => {
+    rows.forEach((rowIndex) => {
+      invalidCells.add({ row: rowIndex, column: "cost" });
+    });
+  });
   if (duplicatePriceGroups.length > 0) {
     messages.push(
-      `พบราคาซ้ำ ${duplicatePriceGroups.length.toLocaleString('th-TH')} ค่า`,
+      `พบราคาซ้ำ ${duplicatePriceGroups.length.toLocaleString("th-TH")} ค่า`,
     );
   }
 

@@ -1,38 +1,38 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import '@fontsource/mali/500.css';
-import '@fontsource/mali/600.css';
-import '@fontsource/mali/700.css';
-import '@fontsource/noto-sans-thai/200.css';
-import '@fontsource/noto-sans-thai/300.css';
-import '@fontsource/noto-sans-thai/400.css';
-import '@fontsource/noto-sans-thai/500.css';
-import '@fontsource/noto-sans-thai/600.css';
-import '@fontsource/noto-sans-thai/700.css';
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import "@fontsource/mali/500.css";
+import "@fontsource/mali/600.css";
+import "@fontsource/mali/700.css";
+import "@fontsource/noto-sans-thai/200.css";
+import "@fontsource/noto-sans-thai/300.css";
+import "@fontsource/noto-sans-thai/400.css";
+import "@fontsource/noto-sans-thai/500.css";
+import "@fontsource/noto-sans-thai/600.css";
+import "@fontsource/noto-sans-thai/700.css";
 
 let theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#5b6641',
-      dark: '#3f482e',
-      contrastText: '#fffaf0',
+      main: "#5b6641",
+      dark: "#3f482e",
+      contrastText: "#fffaf0",
     },
     secondary: {
-      main: '#95543f',
-      dark: '#66392d',
+      main: "#95543f",
+      dark: "#66392d",
     },
     warning: {
-      main: '#b88f4f',
+      main: "#b88f4f",
     },
     background: {
-      default: '#c7bdad',
-      paper: '#f6f0e4',
+      default: "#c7bdad",
+      paper: "#f6f0e4",
     },
     text: {
-      primary: '#2f352e',
-      secondary: '#5f6257',
+      primary: "#2f352e",
+      secondary: "#5f6257",
     },
-    divider: '#b6ad9b',
+    divider: "#b6ad9b",
   },
   shape: {
     borderRadius: 4,
@@ -49,7 +49,7 @@ let theme = createTheme({
     },
     button: {
       fontWeight: 700,
-      textTransform: 'none',
+      textTransform: "none",
     },
   },
   components: {
@@ -64,29 +64,30 @@ let theme = createTheme({
     MuiButton: { defaultProps: { disableElevation: true } },
     MuiCssBaseline: {
       styleOverrides: {
-        ':root': {
-          color: '#2f352e',
-          backgroundColor: '#c7bdad',
-          fontSynthesis: 'none',
+        ":root": {
+          color: "#2f352e",
+          backgroundColor: "#c7bdad",
+          fontSynthesis: "none",
         },
-        '*': {
-          scrollbarWidth: 'thin',
-          scrollbarColor: '#8d927d transparent',
+        "*": {
+          scrollbarWidth: "thin",
+          scrollbarColor: "#8d927d transparent",
         },
-        'html, body, #app': {
-          minHeight: '100%',
+        "html, body, #app": {
+          minHeight: "100%",
         },
         body: {
           margin: 0,
-          color: '#2f352e',
-          backgroundColor: '#c7bdad',
+          color: "#2f352e",
+          backgroundColor: "#c7bdad",
           backgroundImage:
-            'radial-gradient(#8f887b 0.65px, transparent 0.65px)',
-          backgroundSize: '8px 8px',
+            "radial-gradient(#8f887b 0.65px, transparent 0.65px)",
+          backgroundSize: "8px 8px",
         },
       },
     },
   },
 });
 theme = responsiveFontSizes(theme);
+
 export { theme };

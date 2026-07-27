@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from "react";
 import {
   getCompleteDataset,
   getEquilibrium,
   validateDataset,
-} from '@/lib/supply-demand';
+} from "@/lib/supply-demand";
 
 export const useSupplyDemandExplorer = (options: {
   data: Array<{

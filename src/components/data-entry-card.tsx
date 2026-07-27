@@ -1,19 +1,19 @@
-import DeleteSweepRoundedIcon from '@mui/icons-material/DeleteSweepRounded';
-import RedoRoundedIcon from '@mui/icons-material/RedoRounded';
-import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
-import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded';
-import UndoRoundedIcon from '@mui/icons-material/UndoRounded';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { DatasetTable } from './data-entry-table';
-import { NotebookCard } from './notebook-card';
-import { SectionHeading } from './section-heading';
-import type { FC } from 'react';
+import DeleteSweepRoundedIcon from "@mui/icons-material/DeleteSweepRounded";
+import RedoRoundedIcon from "@mui/icons-material/RedoRounded";
+import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
+import ScienceRoundedIcon from "@mui/icons-material/ScienceRounded";
+import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
+import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import type { FC } from "react";
+import { DatasetTable } from "./data-entry-table";
+import { NotebookCard } from "./notebook-card";
+import { SectionHeading } from "./section-heading";
 
 export const DataEntryCard: FC<{
   data: Array<{
@@ -35,7 +35,7 @@ export const DataEntryCard: FC<{
   canRedo: boolean;
   canUndo: boolean;
   errors: {
-    cells: Set<{ row: number; column: 'cost' | 'demand' | 'supply' }>;
+    cells: Set<{ row: number; column: "cost" | "demand" | "supply" }>;
     messages: Array<string>;
   };
 }> = (props) => {
@@ -45,11 +45,11 @@ export const DataEntryCard: FC<{
         <SectionHeading step="01" title="ป้อนข้อมูล" />
         <Stack spacing={1.5}>
           <Stack
-            direction={'row'}
+            direction={"row"}
             sx={{
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <Button
@@ -72,13 +72,13 @@ export const DataEntryCard: FC<{
                 onClick={props.onRedo}
                 disabled={!props.canRedo}
               >
-                {'ทำซ้ำ'}
+                {"ทำซ้ำ"}
               </Button>
             </Stack>
           </Stack>
           <Box
             sx={(theme) => ({
-              bgcolor: 'rgba(241, 236, 223, 0.82)',
+              bgcolor: "rgba(241, 236, 223, 0.82)",
               border: `2px solid ${theme.palette.text.primary}`,
             })}
           >
@@ -91,16 +91,16 @@ export const DataEntryCard: FC<{
           <Stack
             direction="row"
             sx={{
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <Chip
               color="primary"
               icon={<SaveRoundedIcon />}
               label={
-                <Typography variant="body1">{'บันทึกแล้วในอุปกรณ์'}</Typography>
+                <Typography variant="body1">{"บันทึกแล้วในอุปกรณ์"}</Typography>
               }
             />
             <Button
