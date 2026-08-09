@@ -10,7 +10,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "check": "pnpx @biomejs/biome check --write && pnpm tsc --noEmit",
-    "deploy-gh-pages": "pnpx gh-pages -b gh-pages -d ./dist/"
+    "deploy": "pnpx gh-pages -b gh-pages -d ./dist/"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.7",
@@ -26,7 +26,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@fontsource-variable/noto-sans-thai": "^5.3.0",
+    "@fontsource-variable/noto-serif-thai": "^5.3.0",
     "@handsontable/react-wrapper": "^18.0.0",
     "@mui/icons-material": "^9.3.1",
     "@mui/material": "^9.3.1",

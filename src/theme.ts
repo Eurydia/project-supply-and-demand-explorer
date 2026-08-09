@@ -30,7 +30,7 @@ let theme = createTheme({
     borderRadius: 4,
   },
   typography: {
-    fontFamily: '"Noto Sans Thai variable", system-ui, sans-serif',
+    fontFamily: '"Noto Serif Thai variable", system-ui, sans-serif',
     h2: {
       fontWeight: 700,
     },

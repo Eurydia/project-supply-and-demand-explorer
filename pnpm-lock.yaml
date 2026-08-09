@@ -17,7 +17,7 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8))(@types/react@19.2.18)(react@19.2.8)
-      '@fontsource-variable/noto-sans-thai':
+      '@fontsource-variable/noto-serif-thai':
         specifier: ^5.3.0
         version: 5.3.0
       '@handsontable/react-wrapper':
@@ -326,8 +326,8 @@ packages:
       '@noble/hashes':
         optional: true
 
-  '@fontsource-variable/noto-sans-thai@5.3.0':
-    resolution: {integrity: sha512-jHEC1vo8gD09GKf8jtH1IMoPqWmQQSKH3gkyD3ibCIMEkVpEqJ9NJ2c181VHKbTHXc7Wu9CbuBU3yjQNvpbEbw==}
+  '@fontsource-variable/noto-serif-thai@5.3.0':
+    resolution: {integrity: sha512-3+f9Xd78ICNyrc9LadhmFi2rcOEDmXd27w2xWG/EI9wCoYz7MH4f3Uj3RyS1H0wvOm9PcmrlTnWircnxQrTQeg==}
 
   '@handsontable/react-wrapper@18.0.0':
     resolution: {integrity: sha512-Cy+uFLFB04WJ3YtifqAm0+4Ya65hjNS4as15bT/YDnhqxIV/LW/73zDLJ2YBC2sJ4X0sx2FL/UbTWHJA+Co/eg==}
@@ -2047,7 +2047,7 @@ snapshots:
 
   '@exodus/bytes@1.15.1': {}
 
-  '@fontsource-variable/noto-sans-thai@5.3.0': {}
+  '@fontsource-variable/noto-serif-thai@5.3.0': {}
 
   '@handsontable/react-wrapper@18.0.0(handsontable@18.0.0)':
     dependencies:
