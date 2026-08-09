@@ -1,53 +1,53 @@
 <!doctype html>
 <html lang="th">
   <head>
-    <meta name="msvalidate.01" content="833A1BBDD480E1AA346453D1D4BFBDA8" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <link
-      rel="canonical"
-      href="https://eurydia.github.io/project-supply-and-demand-explorer/"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="./apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="./favicon-16x16.png"
-    />
+    <meta name="msvalidate.01" content="833A1BBDD480E1AA346453D1D4BFBDA8" />
     <meta
       name="description"
-      content="สร้างกราฟอุปสงค์และอุปทานจากข้อมูลตาราง พร้อมคำนวณราคากับปริมาณดุลยภาพและตรวจสอบความถูกต้องของข้อมูล"
+      content="เครื่องมือสำรวจอุปสงค์และอุปทานจากข้อมูลราคาและปริมาณ สร้างกราฟ ตรวจสอบข้อมูล และคำนวณราคากับปริมาณดุลยภาพด้วยการแทรกค่าระหว่างจุดข้อมูล"
     />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="th_TH" />
-    <meta property="og:site_name" content="ตัวสำรวจอุปสงค์–อุปทาน" />
     <meta
-      property="og:url"
-      content="https://eurydia.github.io/project-supply-and-demand-explorer/"
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
+    <meta
+      name="application-name"
+      content="เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล"
+    />
+    <meta name="theme-color" content="#f6f0e4" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="canonical" href="https://supdemviz.eurydia.work/" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://supdemviz.eurydia.work/" />
     <meta property="og:title" content="เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล" />
     <meta
       property="og:description"
-      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และคำนวณราคากับปริมาณดุลยภาพ"
+      content="ป้อนข้อมูลราคา อุปทาน และอุปสงค์ เพื่อสร้างกราฟ ตรวจสอบข้อมูล และคำนวณราคากับปริมาณดุลยภาพ"
     />
+    <meta property="og:site_name" content="ตัวสำรวจอุปสงค์–อุปทาน" />
+    <meta property="og:locale" content="th_TH" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://supdemviz.eurydia.work/og.png" />
     <meta
-      property="og:image"
-      content="https://eurydia.github.io/project-supply-and-demand-explorer/og.png"
+      property="og:image:secure_url"
+      content="https://supdemviz.eurydia.work/og.png"
     />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="2864" />
     <meta property="og:image:height" content="1552" />
+    <meta
+      property="og:image:alt"
+      content="หน้าจอตัวสำรวจที่แสดงตารางข้อมูลและกราฟอุปสงค์กับอุปทาน"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta
@@ -56,45 +56,86 @@
     />
     <meta
       name="twitter:description"
-      content="ป้อนข้อมูล เปรียบเทียบเส้นอุปสงค์และอุปทาน และคำนวณราคากับปริมาณดุลยภาพ"
+      content="ป้อนข้อมูลราคา อุปทาน และอุปสงค์ เพื่อสร้างกราฟ ตรวจสอบข้อมูล และคำนวณราคากับปริมาณดุลยภาพ"
     />
-    <meta name="twitter:image:alt" content="กราฟอุปสงค์และอุปทาน" />
     <meta
       name="twitter:image"
-      content="https://eurydia.github.io/project-supply-and-demand-explorer/og.png"
+      content="https://supdemviz.eurydia.work/og.png"
     />
-    <meta name="theme-color" content="#f6f0e4" />
-    <link rel="manifest" href="./manifest.json" />
+    <meta
+      name="twitter:image:alt"
+      content="หน้าจอตัวสำรวจที่แสดงตารางข้อมูลและกราฟอุปสงค์กับอุปทาน"
+    />
+
+    <title>เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล",
-        "alternateName": "Supply and Demand Explorer",
-        "url": "https://eurydia.github.io/project-supply-and-demand-explorer/",
-        "description": "เครื่องมือสร้างกราฟอุปสงค์และอุปทานจากข้อมูลตาราง พร้อมคำนวณราคากับปริมาณดุลยภาพ",
-        "applicationCategory": "EducationalApplication",
-        "operatingSystem": "Any",
-        "browserRequirements": "Requires JavaScript",
-        "inLanguage": "th",
-        "isAccessibleForFree": true
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://supdemviz.eurydia.work/#website",
+            "url": "https://supdemviz.eurydia.work/",
+            "name": "ตัวสำรวจอุปสงค์–อุปทาน",
+            "alternateName": "Supply and Demand Explorer",
+            "inLanguage": "th"
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://supdemviz.eurydia.work/#application",
+            "url": "https://supdemviz.eurydia.work/",
+            "name": "เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล",
+            "alternateName": "Supply and Demand Explorer",
+            "description": "เครื่องมือสำรวจอุปสงค์และอุปทานจากข้อมูลราคาและปริมาณ สร้างกราฟ ตรวจสอบข้อมูล และคำนวณราคากับปริมาณดุลยภาพด้วยการแทรกค่าระหว่างจุดข้อมูล",
+            "image": "https://supdemviz.eurydia.work/og.png",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript and a modern web browser.",
+            "isAccessibleForFree": true,
+            "inLanguage": "th",
+            "featureList": [
+              "ป้อนข้อมูลราคา ปริมาณอุปทาน และปริมาณอุปสงค์ในตาราง",
+              "เรียกใช้ชุดข้อมูลตัวอย่างเพื่อเริ่มสำรวจได้ทันที",
+              "ตรวจสอบข้อมูลที่ไม่ครบและราคาที่ซ้ำกัน",
+              "แสดงเส้นอุปสงค์และอุปทานบนกราฟเชิงโต้ตอบ",
+              "คำนวณราคากับปริมาณดุลยภาพด้วยการแทรกค่าระหว่างจุดข้อมูล",
+              "บันทึกข้อมูลในอุปกรณ์พร้อมรองรับการย้อนกลับและทำซ้ำ"
+            ]
+          }
+        ]
       }
     </script>
-    <title>เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล</title>
   </head>
   <body>
     <div id="app">
-      <main>
+      <header>
         <h1>เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล</h1>
         <p>
-          เครื่องมือสำหรับป้อนข้อมูลราคา ปริมาณอุปทาน และปริมาณอุปสงค์
-          เพื่อสร้างกราฟเปรียบเทียบและคำนวณราคากับปริมาณดุลยภาพ
+          สำรวจความสัมพันธ์ระหว่างราคา ปริมาณอุปทาน และปริมาณอุปสงค์
+          ผ่านตารางข้อมูลและกราฟเชิงโต้ตอบ
         </p>
+      </header>
+      <main>
         <section>
-          <h2>วิเคราะห์ข้อมูลอุปสงค์และอุปทาน</h2>
+          <h2>ป้อนและตรวจสอบข้อมูล</h2>
           <p>
-            ตารางรองรับการตรวจสอบข้อมูล ค่าที่ไม่ครบ ราคาซ้ำ และทิศทางของเส้น
-            พร้อมคำนวณจุดตัดด้วยการแทรกค่าระหว่างจุดข้อมูล
+            กรอกข้อมูลราคา อุปทาน และอุปสงค์ในตาราง
+            หรือเริ่มจากชุดข้อมูลตัวอย่าง
+            ระบบช่วยตรวจหาข้อมูลที่ไม่ครบและราคาซ้ำ
+          </p>
+        </section>
+        <section>
+          <h2>สร้างกราฟอุปสงค์และอุปทาน</h2>
+          <p>
+            เปรียบเทียบเส้นอุปสงค์กับเส้นอุปทานบนกราฟราคาและปริมาณ
+            เพื่อมองเห็นแนวโน้มของข้อมูลได้ชัดเจน
+          </p>
+        </section>
+        <section>
+          <h2>คำนวณจุดดุลยภาพ</h2>
+          <p>
+            ค้นหาราคากับปริมาณดุลยภาพจากจุดตัดของเส้น
+            รวมถึงกรณีที่ต้องแทรกค่าระหว่างจุดข้อมูล
           </p>
         </section>
       </main>

@@ -1,5 +1,4 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
 
-Sitemap: https://eurydia.github.io/project-supply-and-demand-explorer/sitemap.xml
+Sitemap: https://supdemviz.eurydia.work/sitemap.xml

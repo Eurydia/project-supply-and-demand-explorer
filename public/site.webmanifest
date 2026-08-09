@@ -1,0 +1,36 @@
+{
+  "id": "/",
+  "name": "เครื่องคำนวณอุปสงค์–อุปทานและจุดสมดุล",
+  "short_name": "อุปสงค์–อุปทาน",
+  "description": "ป้อนข้อมูลราคา อุปทาน และอุปสงค์ เพื่อสร้างกราฟ ตรวจสอบข้อมูล และคำนวณราคากับปริมาณดุลยภาพ",
+  "lang": "th",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f0e4",
+  "theme_color": "#f6f0e4",
+  "categories": ["education", "utilities"],
+  "icons": [
+    {
+      "src": "./android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "เปิดตัวสำรวจอุปสงค์–อุปทาน",
+      "short_name": "เปิดตัวสำรวจ",
+      "description": "ป้อนข้อมูล สร้างกราฟ และคำนวณจุดดุลยภาพ",
+      "url": "./#/"
+    }
+  ]
+}
