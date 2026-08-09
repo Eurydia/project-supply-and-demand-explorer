@@ -1,13 +1,12 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import {
+  createHashHistory,
+  createRouter,
+  RouterProvider,
+} from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
 import { routeTree } from "./routeTree.gen";
-
-const githubPagesBase = "/project-supply-and-demand-explorer/";
-const basepath = window.location.pathname.startsWith(githubPagesBase)
-  ? githubPagesBase
-  : "/";
 
 const router = createRouter({
   routeTree,
@@ -16,7 +15,7 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
-  basepath,
+  history: createHashHistory(),
 });
 
 declare module "@tanstack/react-router" {
@@ -26,7 +25,7 @@ declare module "@tanstack/react-router" {
 }
 
 const rootElement = document.getElementById("app");
-if (rootElement) {
+if (rootElement !== null) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
