@@ -1,5 +1,4 @@
 import { Stack } from "@mui/material";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import type { FC } from "react";
 
@@ -11,8 +10,15 @@ export const SectionHeading: FC<{
   const clay = props.tone === "clay";
 
   return (
-    <Stack spacing={2} direction={"row"} sx={{ alignItems: "center" }}>
-      <Box
+    <Stack
+      component="hgroup"
+      spacing={2}
+      direction="row"
+      sx={{ alignItems: "center" }}
+    >
+      <Typography
+        component="p"
+        variant="h5"
         sx={(theme) => {
           const borderColor = clay
             ? theme.palette.secondary.dark
@@ -27,26 +33,20 @@ export const SectionHeading: FC<{
             borderColor: borderColor,
             borderWidth: 2,
             borderRadius: theme.shape.borderRadius,
-            boxShadow: `2px 2px 0 ${borderColor}`,
+            boxShadow: `${theme.spacing(0.25)} ${theme.spacing(0.25)} 0 ${borderColor}`,
             transform: clay ? "rotate(2deg)" : "rotate(-2deg)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            margin: 0,
+            color: clay
+              ? theme.palette.secondary.contrastText
+              : theme.palette.primary.contrastText,
           };
         }}
       >
-        <Typography
-          component={"span"}
-          variant="h5"
-          sx={(t) => ({
-            color: clay
-              ? t.palette.secondary.contrastText
-              : t.palette.primary.contrastText,
-          })}
-        >
-          {props.step}
-        </Typography>
-      </Box>
+        {props.step}
+      </Typography>
       <Typography component="h2" variant="h5">
         {props.title}
       </Typography>

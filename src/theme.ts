@@ -1,13 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
-import "@fontsource/mali/500.css";
-import "@fontsource/mali/600.css";
-import "@fontsource/mali/700.css";
-import "@fontsource/noto-sans-thai/200.css";
-import "@fontsource/noto-sans-thai/300.css";
-import "@fontsource/noto-sans-thai/400.css";
-import "@fontsource/noto-sans-thai/500.css";
-import "@fontsource/noto-sans-thai/600.css";
-import "@fontsource/noto-sans-thai/700.css";
+import "@fontsource-variable/noto-serif-thai/wght.css";
 
 let theme = createTheme({
   palette: {
@@ -38,13 +30,11 @@ let theme = createTheme({
     borderRadius: 4,
   },
   typography: {
-    fontFamily: '"Noto Sans Thai", system-ui, sans-serif',
+    fontFamily: '"Noto Sans Thai variable", system-ui, sans-serif',
     h2: {
-      fontFamily: '"Mali", "Noto Sans Thai", sans-serif',
       fontWeight: 700,
     },
     h5: {
-      fontFamily: '"Mali", "Noto Sans Thai", sans-serif',
       fontWeight: 700,
     },
     button: {
@@ -63,28 +53,27 @@ let theme = createTheme({
     },
     MuiButton: { defaultProps: { disableElevation: true } },
     MuiCssBaseline: {
-      styleOverrides: {
+      styleOverrides: (theme) => ({
         ":root": {
-          color: "#2f352e",
-          backgroundColor: "#c7bdad",
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.background.default,
           fontSynthesis: "none",
         },
         "*": {
           scrollbarWidth: "thin",
-          scrollbarColor: "#8d927d transparent",
+          scrollbarColor: `${theme.palette.text.secondary} transparent`,
         },
         "html, body, #app": {
           minHeight: "100%",
         },
         body: {
           margin: 0,
-          color: "#2f352e",
-          backgroundColor: "#c7bdad",
-          backgroundImage:
-            "radial-gradient(#8f887b 0.65px, transparent 0.65px)",
-          backgroundSize: "8px 8px",
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.background.default,
+          backgroundImage: `radial-gradient(${theme.alpha(theme.palette.text.secondary, 0.55)} ${theme.spacing(0.08125)}, transparent ${theme.spacing(0.08125)})`,
+          backgroundSize: theme.spacing(1),
         },
-      },
+      }),
     },
   },
 });

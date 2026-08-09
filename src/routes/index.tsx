@@ -17,11 +17,20 @@ function RouteComponent() {
     onChange: stateHistory.update,
   });
   return (
-    <Container maxWidth="xl" component={"main"}>
-      <Stack spacing={{ xs: 2, md: 4 }} sx={{ padding: { xs: 1, md: 3 } }}>
+    <Container maxWidth="xl" component="main">
+      <Stack
+        component="article"
+        spacing={{ xs: 2, md: 4 }}
+        sx={{ padding: { xs: 1, md: 3 } }}
+      >
         <ExplorerHeader />
-        <Grid container spacing={{ xs: 2, md: 4 }}>
-          <Grid size={{ xs: 12, md: 4 }}>
+        <Grid
+          component="ul"
+          container
+          spacing={{ xs: 2, md: 4 }}
+          sx={{ listStyle: "none", margin: 0, padding: 0 }}
+        >
+          <Grid component="li" size={{ xs: 12, md: 4 }}>
             <DataEntryCard
               onUndo={stateHistory.undo}
               onRedo={stateHistory.redo}
@@ -34,7 +43,7 @@ function RouteComponent() {
               errors={controller.errors}
             />
           </Grid>
-          <Grid size={{ xs: 12, md: 8 }}>
+          <Grid component="li" size={{ xs: 12, md: 8 }}>
             <AnalysisCard
               dataset={controller.sortedDataset}
               equilibrium={controller.equilibrium}

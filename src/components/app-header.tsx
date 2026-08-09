@@ -1,77 +1,82 @@
 import { Box, Stack, Typography } from "@mui/material";
 import type { FC } from "react";
-import { memo } from "react";
 
-export const ExplorerHeader: FC = memo(
-  () => {
-    return (
+export const ExplorerHeader: FC = () => {
+  return (
+    <Box
+      component="header"
+      sx={(theme) => ({
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 2,
+        paddingX: 4,
+        paddingY: 2,
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.background.paper,
+        backgroundImage: [
+          `linear-gradient(90deg, transparent ${theme.spacing(5.75)}, ${theme.alpha(theme.palette.secondary.main, 0.42)} ${theme.spacing(5.875)}, transparent ${theme.spacing(6)})`,
+          `linear-gradient(${theme.alpha(theme.palette.divider, 0.45)} ${theme.spacing(0.125)}, transparent ${theme.spacing(0.125)})`,
+          `linear-gradient(90deg, ${theme.alpha(theme.palette.divider, 0.45)} ${theme.spacing(0.125)}, transparent ${theme.spacing(0.125)})`,
+        ].join(","),
+        backgroundSize: `auto, ${theme.spacing(3)} ${theme.spacing(3)}, ${theme.spacing(3)} ${theme.spacing(3)}`,
+        border: `${theme.spacing(0.25)} solid ${theme.palette.text.primary}`,
+        boxShadow: `${theme.spacing(0.75)} ${theme.spacing(0.75)} ${theme.alpha(theme.palette.text.primary, 0.22)}`,
+      })}
+    >
+      <Stack component="hgroup" spacing={2}>
+        <Typography
+          variant="h5"
+          component="p"
+          sx={(theme) => ({
+            margin: 0,
+            width: "fit-content",
+            paddingX: 3,
+            paddingY: 1,
+            color: theme.palette.secondary.contrastText,
+            backgroundColor: theme.palette.secondary.main,
+            borderBottomColor: theme.palette.secondary.dark,
+            borderBottomStyle: "solid",
+            borderBottomWidth: 4,
+            transform: "rotate(-1deg)",
+            fontWeight: 900,
+          })}
+        >
+          SUPPLY / DEMAND
+        </Typography>
+        <Typography component="h1" variant="h2">
+          สำรวจอุปสงค์–อุปทาน
+        </Typography>
+      </Stack>
       <Box
-        component="header"
+        component="aside"
         sx={(theme) => ({
-          paddingX: 4,
-          paddingY: 2,
-          color: theme.palette.text.primary,
-          bgcolor: `${theme.palette.background.paper} !important`,
-          backgroundImage: [
-            "linear-gradient(90deg, transparent 46px, rgba(165, 101, 78, 0.42) 47px, transparent 48px)",
-            "linear-gradient(rgba(119, 117, 104, 0.16) 1px, transparent 1px)",
-            "linear-gradient(90deg, rgba(119, 117, 104, 0.16) 1px, transparent 1px)",
-          ].join(","),
-          backgroundSize: "auto, 24px 24px, 24px 24px",
-          border: `2px solid ${theme.palette.text.primary}`,
-          boxShadow: "6px 6px rgba(47, 53, 46, 0.22)",
+          paddingX: 3,
+          paddingY: 1,
+          backgroundColor: theme.palette.background.paper,
+          borderStyle: "dashed",
+          borderWidth: 2,
+          borderColor: theme.palette.primary.dark,
+          transform: "rotate(4deg)",
         })}
       >
-        <Stack
-          direction={"row"}
-          sx={{ justifyContent: "space-between", alignItems: "center" }}
-        >
-          <Stack spacing={2}>
-            <Typography
-              variant="h5"
-              component={"span"}
-              sx={(t) => ({
-                width: "fit-content",
-                paddingX: 3,
-                padding: 1,
-                color: t.palette.secondary.contrastText,
-                backgroundColor: t.palette.secondary.main,
-                borderBottomColor: t.palette.secondary.dark,
-                borderBottomStyle: "solid",
-                borderBottomWmdth: 4,
-                transform: "rotate(-1deg)",
-                fontWeight: 900,
-              })}
-            >
-              SUPPLY / DEMAND
-            </Typography>
-            <Typography component="h1" variant="h2">
-              สำรวจอุปสงค์–อุปทาน
-            </Typography>
-          </Stack>
-          <Box
-            sx={(theme) => ({
-              paddingX: 3,
-              paddingY: 1,
-              backgroundColor: theme.palette.background.paper,
-              borderStyle: "dashed",
-              borderWidth: 2,
-              borderColor: theme.palette.primary.dark,
-              transform: "rotate(4deg)",
-            })}
+        <Stack component="p" spacing={0.5} sx={{ margin: 0 }}>
+          <Typography
+            component="small"
+            variant="h6"
+            sx={(theme) => ({ color: theme.palette.text.secondary })}
           >
-            <Stack spacing={0.5}>
-              <Typography component="span" variant="h6" color="textSecondary">
-                {`ราคา ↑`}
-              </Typography>
-              <Typography component="strong" color="textPrimary" variant="h6">
-                {`Qₛ ↑ · Qd ↓`}
-              </Typography>
-            </Stack>
-          </Box>
+            {`ราคา ↑`}
+          </Typography>
+          <Typography
+            component="strong"
+            variant="h6"
+            sx={(theme) => ({ color: theme.palette.text.primary })}
+          >
+            {`Qₛ ↑ · Qd ↓`}
+          </Typography>
         </Stack>
       </Box>
-    );
-  },
-  () => true,
-);
+    </Box>
+  );
+};

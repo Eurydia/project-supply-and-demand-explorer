@@ -5,8 +5,11 @@ import {
 } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { initializeTable } from "@/libs/table";
 
 import { routeTree } from "./routeTree.gen";
+
+initializeTable();
 
 const router = createRouter({
   routeTree,

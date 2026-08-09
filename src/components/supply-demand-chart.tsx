@@ -1,6 +1,5 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
-import type { FC } from "react";
-import { useMemo } from "react";
+import { type FC, Fragment, useMemo } from "react";
 import type { TooltipContentProps } from "recharts";
 import {
   CartesianGrid,
@@ -24,51 +23,56 @@ function ChartTooltip({ active, label, payload }: TooltipContentProps) {
 
   return (
     <Box
+      component="dl"
       sx={(theme) => ({
-        padding: "9px 11px",
+        margin: 0,
+        padding: theme.spacing(1.125, 1.375),
         color: theme.palette.text.primary,
-        bgcolor: "rgba(246, 240, 228, 0.96)",
-        border: `2px solid ${theme.palette.text.primary}`,
-        boxShadow: "3px 3px rgba(47, 53, 46, 0.18)",
+        bgcolor: theme.alpha(theme.palette.background.paper, 0.96),
+        border: `${theme.spacing(0.25)} solid ${theme.palette.text.primary}`,
+        boxShadow: `${theme.spacing(0.375)} ${theme.spacing(0.375)} ${theme.alpha(theme.palette.text.primary, 0.18)}`,
+        display: "grid",
+        gridTemplateColumns: "auto auto",
+        alignItems: "center",
+        columnGap: 2,
+        rowGap: 0.5,
       })}
     >
+      <Typography component="dt" variant="caption" sx={{ fontWeight: 700 }}>
+        ปริมาณ
+      </Typography>
       <Typography
-        sx={{
-          mb: "4px",
-          fontFamily: '"Mali", sans-serif',
-          fontSize: "0.72rem",
-          fontWeight: 700,
-        }}
+        component="dd"
+        variant="caption"
+        sx={{ margin: 0, fontWeight: 700 }}
       >
-        ปริมาณ {typeof label === "number" ? formatTick(label) : label} หน่วย
+        {typeof label === "number" ? formatTick(label) : label} หน่วย
       </Typography>
       {visiblePayload.map((entry) => (
-        <Stack
-          direction="row"
-          key={String(entry.dataKey)}
-          spacing={2}
-          sx={{
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Stack spacing={3} direction="row" sx={{ alignItems: "center" }}>
-            <Box
-              component="span"
-              sx={{
-                width: 14,
-                borderTop: `2px solid ${entry.color ?? "#2f352e"}`,
-              }}
-            />
-            <Typography component="span" sx={{ fontSize: "0.7rem" }}>
+        <Fragment key={String(entry.dataKey)}>
+          <Stack
+            component="dt"
+            spacing={3}
+            direction="row"
+            sx={(theme) => ({
+              alignItems: "center",
+              borderLeft: `${theme.spacing(0.25)} solid ${entry.color ?? theme.palette.text.primary}`,
+              paddingLeft: 1,
+            })}
+          >
+            <Typography component="strong" variant="caption">
               {entry.name}
             </Typography>
           </Stack>
-          <Typography component="strong" sx={{ fontSize: "0.72rem" }}>
+          <Typography
+            component="dd"
+            variant="caption"
+            sx={{ margin: 0, fontWeight: 700 }}
+          >
             {typeof entry.value === "number" ? formatTick(entry.value) : "—"}{" "}
             บาท
           </Typography>
-        </Stack>
+        </Fragment>
       ))}
     </Box>
   );
@@ -182,17 +186,20 @@ export const SupplyDemandChart: FC<{
   const t = useTheme();
   return (
     <Box
+      component="figure"
       sx={{
+        margin: 0,
         position: "relative",
         width: "100%",
         height: 390,
       }}
     >
-      <Stack
-        direction="row"
-        spacing={4}
+      <Box
+        component="figcaption"
         sx={{
+          display: "flex",
           alignItems: "center",
+          gap: 4,
           pointerEvents: "none",
         }}
       >
@@ -200,20 +207,18 @@ export const SupplyDemandChart: FC<{
           { label: "อุปทาน (S)", color: t.palette.primary.main },
           { label: "อุปสงค์ (D)", color: t.palette.secondary.main },
         ].map((item) => (
-          <Stack
-            direction="row"
+          <Typography
+            component="strong"
             key={item.label}
-            spacing={2}
-            sx={{ alignItems: "center" }}
+            sx={(theme) => ({
+              borderLeft: `${theme.spacing(0.375)} solid ${item.color}`,
+              paddingLeft: 1,
+            })}
           >
-            <Box
-              component="span"
-              sx={{ width: 26, borderTop: `3px solid ${item.color}` }}
-            />
-            <Typography component="span">{item.label}</Typography>
-          </Stack>
+            {item.label}
+          </Typography>
         ))}
-      </Stack>
+      </Box>
 
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
@@ -230,12 +235,12 @@ export const SupplyDemandChart: FC<{
             ]}
             tickCount={6}
             tickFormatter={formatTick}
-            stroke="#424940"
-            tick={{ fill: "#454a42", fontSize: 11 }}
+            stroke={t.palette.text.primary}
+            tick={{ fill: t.palette.text.secondary, fontSize: 11 }}
             label={{
               value: "ปริมาณ (หน่วย)",
               position: "insideBottom",
-              fill: "#343a33",
+              fill: t.palette.text.primary,
               fontWeight: 700,
             }}
           />
@@ -247,27 +252,27 @@ export const SupplyDemandChart: FC<{
             ]}
             tickCount={6}
             tickFormatter={formatTick}
-            stroke="#424940"
-            tick={{ fill: "#454a42", fontSize: 11 }}
+            stroke={t.palette.text.primary}
+            tick={{ fill: t.palette.text.secondary, fontSize: 11 }}
             width={54}
             label={{
               value: "ราคา (บาท)",
               angle: -90,
               position: "insideLeft",
-              fill: "#343a33",
+              fill: t.palette.text.primary,
               fontWeight: 700,
             }}
           />
           <Tooltip
             content={ChartTooltip}
-            cursor={{ stroke: "#8f887b", strokeDasharray: "3 4" }}
+            cursor={{ stroke: t.palette.divider, strokeDasharray: "3 4" }}
           />
 
           {props.equilibrium !== null && (
             <>
               <ReferenceLine
                 y={props.equilibrium.price}
-                stroke="#95543f"
+                stroke={t.palette.secondary.main}
                 strokeWidth={1.5}
                 strokeDasharray="5 5"
               />
@@ -275,8 +280,8 @@ export const SupplyDemandChart: FC<{
                 dataKey="equilibriumCost"
                 name="จุดสมดุล"
                 isAnimationActive={false}
-                fill="#b88f4f"
-                stroke="#2f352e"
+                fill={t.palette.warning.main}
+                stroke={t.palette.text.primary}
                 strokeWidth={2}
               />
             </>

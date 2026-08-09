@@ -22,8 +22,9 @@ export const AnalysisCard: FC<{
 }> = (props) => {
   return (
     <NotebookCard>
-      <Stack spacing={3}>
+      <Stack component="section" spacing={3}>
         <Stack
+          component="header"
           direction={"row"}
           spacing={3}
           sx={{ alignItems: "center", justifyContent: "space-between" }}
@@ -40,34 +41,55 @@ export const AnalysisCard: FC<{
         </Stack>
 
         <Box
+          component="section"
           sx={(theme) => ({
             position: "relative",
             flex: 1,
             minHeight: 390,
             overflow: "hidden",
-            bgcolor: "rgba(246, 240, 228, 0.88)",
-            backgroundImage:
-              "linear-gradient(rgba(119, 117, 104, 0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(119, 117, 104, 0.13) 1px, transparent 1px)",
-            backgroundSize: "22px 22px",
-            border: `2px solid ${theme.palette.text.primary}`,
+            bgcolor: theme.alpha(theme.palette.background.paper, 0.88),
+            backgroundImage: `linear-gradient(${theme.alpha(theme.palette.divider, 0.45)} ${theme.spacing(0.125)}, transparent ${theme.spacing(0.125)}), linear-gradient(90deg, ${theme.alpha(theme.palette.divider, 0.45)} ${theme.spacing(0.125)}, transparent ${theme.spacing(0.125)})`,
+            backgroundSize: `${theme.spacing(2.75)} ${theme.spacing(2.75)}`,
+            border: `${theme.spacing(0.25)} solid ${theme.palette.text.primary}`,
           })}
         >
+          <Typography
+            component="h3"
+            sx={{
+              clip: "rect(0 0 0 0)",
+              height: 1,
+              margin: -1,
+              overflow: "hidden",
+              padding: 0,
+              position: "absolute",
+              whiteSpace: "nowrap",
+              width: 1,
+            }}
+          >
+            กราฟอุปสงค์ อุปทาน และจุดดุลยภาพ
+          </Typography>
           {props.dataset.length === 0 && (
             <Stack
-              sx={{
+              component="p"
+              sx={(theme) => ({
+                margin: 0,
                 position: "absolute",
-                bgcolor: "rgba(246, 240, 228, 0.86)",
+                bgcolor: theme.alpha(theme.palette.background.paper, 0.86),
                 pointerEvents: "none",
                 alignItems: "center",
                 justifyContent: "center",
                 width: "100%",
                 height: "100%",
-              }}
+              })}
             >
-              <Typography variant="h5" component={"span"}>
-                ยังไม่มีข้อมูให้แสดงผล
+              <Typography variant="h5" component="strong">
+                ยังไม่มีข้อมูลให้แสดงผล
               </Typography>
-              <Typography color="textSecondary" variant="h6" component={"span"}>
+              <Typography
+                variant="h6"
+                component="small"
+                sx={(theme) => ({ color: theme.palette.text.secondary })}
+              >
                 ป้อนข้อมูลในตาราง หรือเลือก “ใช้ข้อมูลตัวอย่าง”
               </Typography>
             </Stack>

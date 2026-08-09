@@ -41,11 +41,31 @@ export const DataEntryCard: FC<{
 }> = (props) => {
   return (
     <NotebookCard>
-      <Stack spacing={5}>
+      <Stack component="form" spacing={5}>
         <SectionHeading step="01" title="ป้อนข้อมูล" />
-        <Stack spacing={1.5}>
+        <Stack
+          component="fieldset"
+          spacing={1.5}
+          sx={{ border: 0, margin: 0, minWidth: 0, padding: 0 }}
+        >
+          <Typography
+            component="legend"
+            sx={{
+              clip: "rect(0 0 0 0)",
+              height: 1,
+              margin: -1,
+              overflow: "hidden",
+              padding: 0,
+              position: "absolute",
+              whiteSpace: "nowrap",
+              width: 1,
+            }}
+          >
+            จัดการชุดข้อมูลอุปสงค์และอุปทาน
+          </Typography>
           <Stack
-            direction={"row"}
+            component="header"
+            direction="row"
             sx={{
               flexWrap: "wrap",
               justifyContent: "space-between",
@@ -53,14 +73,36 @@ export const DataEntryCard: FC<{
             }}
           >
             <Button
+              type="button"
               variant="contained"
               startIcon={<ScienceRoundedIcon />}
               onClick={props.onRequestSampleData}
             >
               {`ใช้ข้อมูลตัวอย่าง`}
             </Button>
-            <Stack direction="row" spacing={1}>
+            <Stack
+              component="fieldset"
+              direction="row"
+              spacing={1}
+              sx={{ border: 0, margin: 0, minWidth: 0, padding: 0 }}
+            >
+              <Typography
+                component="legend"
+                sx={{
+                  clip: "rect(0 0 0 0)",
+                  height: 1,
+                  margin: -1,
+                  overflow: "hidden",
+                  padding: 0,
+                  position: "absolute",
+                  whiteSpace: "nowrap",
+                  width: 1,
+                }}
+              >
+                ประวัติการแก้ไขข้อมูล
+              </Typography>
               <Button
+                type="button"
                 onClick={props.onUndo}
                 disabled={!props.canUndo}
                 startIcon={<UndoRoundedIcon />}
@@ -68,6 +110,7 @@ export const DataEntryCard: FC<{
                 {`ย้อนกลับ`}
               </Button>
               <Button
+                type="button"
                 endIcon={<RedoRoundedIcon />}
                 onClick={props.onRedo}
                 disabled={!props.canRedo}
@@ -77,11 +120,28 @@ export const DataEntryCard: FC<{
             </Stack>
           </Stack>
           <Box
+            component="section"
             sx={(theme) => ({
-              bgcolor: "rgba(241, 236, 223, 0.82)",
-              border: `2px solid ${theme.palette.text.primary}`,
+              bgcolor: theme.alpha(theme.palette.background.paper, 0.82),
+              border: `${theme.spacing(0.25)} solid ${theme.palette.text.primary}`,
             })}
           >
+            <Typography
+              component="h3"
+              sx={(theme) => ({
+                position: "absolute",
+                width: theme.spacing(0.125),
+                height: theme.spacing(0.125),
+                padding: 0,
+                margin: theme.spacing(-0.125),
+                overflow: "hidden",
+                clip: "rect(0 0 0 0)",
+                whiteSpace: "nowrap",
+                border: 0,
+              })}
+            >
+              ตารางข้อมูลราคา อุปทาน และอุปสงค์
+            </Typography>
             <DatasetTable
               data={props.data}
               invalidCells={props.errors.cells}
@@ -89,6 +149,7 @@ export const DataEntryCard: FC<{
             />
           </Box>
           <Stack
+            component="footer"
             direction="row"
             sx={{
               flexWrap: "wrap",
@@ -100,13 +161,16 @@ export const DataEntryCard: FC<{
               color="primary"
               icon={<SaveRoundedIcon />}
               label={
-                <Typography variant="body1">{"บันทึกแล้วในอุปกรณ์"}</Typography>
+                <Typography component="strong" variant="body1">
+                  บันทึกแล้วในอุปกรณ์
+                </Typography>
               }
             />
             <Button
+              type="button"
               variant="outlined"
               color="warning"
-              startIcon={<DeleteSweepRoundedIcon color="warning" />}
+              startIcon={<DeleteSweepRoundedIcon />}
               onClick={props.onClearData}
               disabled={!props.data.length}
             >
@@ -120,12 +184,22 @@ export const DataEntryCard: FC<{
             variant="outlined"
             icon={<WarningAmberRoundedIcon />}
           >
-            <Stack spacing={0.5}>
+            <Stack
+              component="ul"
+              spacing={0.5}
+              sx={{
+                margin: 0,
+                paddingLeft: 2.5,
+              }}
+            >
               {props.errors.messages.map((message) => (
                 <Typography
+                  component="li"
                   key={message}
-                  color="secondary"
-                  sx={{ fontWeight: 700 }}
+                  sx={(theme) => ({
+                    color: theme.palette.secondary.main,
+                    fontWeight: 700,
+                  })}
                 >
                   {message}
                 </Typography>

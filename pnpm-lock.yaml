@@ -17,10 +17,7 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.18)(react@19.2.8))(@types/react@19.2.18)(react@19.2.8)
-      '@fontsource/mali':
-        specifier: ^5.3.0
-        version: 5.3.0
-      '@fontsource/noto-sans-thai':
+      '@fontsource-variable/noto-sans-thai':
         specifier: ^5.3.0
         version: 5.3.0
       '@handsontable/react-wrapper':
@@ -329,11 +326,8 @@ packages:
       '@noble/hashes':
         optional: true
 
-  '@fontsource/mali@5.3.0':
-    resolution: {integrity: sha512-/H7zdnFcBUdLh7mPUCLWfCoQVgtvnVKrlHjknq90kltPvUcu0nC9ybne4z2rzTghV9ez9N7nRDvRZesODB/YbQ==}
-
-  '@fontsource/noto-sans-thai@5.3.0':
-    resolution: {integrity: sha512-ngqUyvDukkZUHypQbUJvUdAeYa2aYZsyeDTsdqMudf7GK2F2TK19OZ5kbo+37qsBtkNpmAMhEObQnWnzPqzKUw==}
+  '@fontsource-variable/noto-sans-thai@5.3.0':
+    resolution: {integrity: sha512-jHEC1vo8gD09GKf8jtH1IMoPqWmQQSKH3gkyD3ibCIMEkVpEqJ9NJ2c181VHKbTHXc7Wu9CbuBU3yjQNvpbEbw==}
 
   '@handsontable/react-wrapper@18.0.0':
     resolution: {integrity: sha512-Cy+uFLFB04WJ3YtifqAm0+4Ya65hjNS4as15bT/YDnhqxIV/LW/73zDLJ2YBC2sJ4X0sx2FL/UbTWHJA+Co/eg==}
@@ -2053,9 +2047,7 @@ snapshots:
 
   '@exodus/bytes@1.15.1': {}
 
-  '@fontsource/mali@5.3.0': {}
-
-  '@fontsource/noto-sans-thai@5.3.0': {}
+  '@fontsource-variable/noto-sans-thai@5.3.0': {}
 
   '@handsontable/react-wrapper@18.0.0(handsontable@18.0.0)':
     dependencies:
